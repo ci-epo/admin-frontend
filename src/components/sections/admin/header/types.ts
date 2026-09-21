@@ -7,7 +7,11 @@ export type NotificationKind = "stock" | "like" | "birthday" | "share" | "file";
 export interface NotificationItem {
   id: string;
   kind: NotificationKind;
-  title: React.ReactNode;
+  /** Acteur mis en avant (ex: nom d'un membre), affiché en gras avant le titre. */
+  actor?: string;
+  /** Classes de l'icône affichée juste après l'acteur. */
+  actorIcon?: string;
+  title?: string;
   date: string;
   /** Description supplémentaire dans un encart gris */
   detail?: string;
@@ -37,5 +41,3 @@ export interface UserProfile {
   email: string;
   avatarUrl: string;
 }
-
-import type React from "react";

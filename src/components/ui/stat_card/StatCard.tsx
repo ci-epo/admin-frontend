@@ -1,23 +1,6 @@
-"use client";
+import type { StatItem } from "@/types/stat";
 
-import React from "react";
-
-interface StatCardProps {
-  /** Classe d'icône (ex: "bi bi-folder2-open") */
-  icon: string;
-  /** Valeur principale affichée (ex: "$2,647") */
-  value: string;
-  /** Libellé sous la valeur (ex: "Today's Sales") */
-  label: string;
-  /** Texte explicatif sous le libellé */
-  caption?: string;
-  /** Préfixe coloré dans le caption (ex: "+8%") */
-  captionHighlight?: string;
-  /** Couleur du préfixe — défaut: success */
-  highlightColor?: "success" | "danger" | "primary" | "warning";
-  /** Tendance affichée à côté de la valeur — défaut: "up" */
-  trend?: "up" | "down" | "none";
-}
+type StatCardProps = StatItem;
 
 export default function StatCard({
   icon,

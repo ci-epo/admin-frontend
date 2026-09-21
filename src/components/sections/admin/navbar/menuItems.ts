@@ -6,67 +6,32 @@
  */
 
 export interface NavItem {
-    label: string;
-    href?: string;
-    /** Classe d'icône (ex: "ri-dashboard-line"). Seulement aux items de niveau 1. */
-    icon?: string;
-    /** ID du collapse Bootstrap, si l'item a un sous-menu */
-    collapseId?: string;
-    children?: NavItem[];
-  }
-  
-  export interface NavSection {
-    /** Titre de section affiché en gris au-dessus du groupe */
-    title: string;
-    items: NavItem[];
-  }
-  
-  export const MENU: NavSection[] = [
-    {
-      title: "Main",
-      items: [
-        {
-          label: "Tableau de bord",
-          icon: "ri-dashboard-line",
-          collapseId: "collapseDashboards",
-          href: "/dashboard",
-        },
-        {
-          label: "Membres",
-          icon: "ri-group-line",
-          collapseId: "collapseApplications",
-          href: "/member",
-        },
-        {
-          label: "Calendrier",
-          icon: "ri-calendar-2-line",
-          collapseId: "collapseApplications",
-          href: "/calendar",
-        },
-        {
-          label: "Activites",
-          icon: "ri-calendar-event-line",
-          collapseId: "collapseApplications",
-          href: "/activity",
-        },
-        {
-          label: "Tresorerie",
-          icon: "ri-wallet-3-line",
-          collapseId: "collapseApplications",
-          href: "/treasury",
-        },
-        {
-          label: "Archives",
-          icon: "ri-archive-2-line",
-          collapseId: "collapseApplications",
-          href: "/archiver",
-        },
-        {
-          label: "A Propos",
-          icon: "ri-information-line",
-          collapseId: "collapseApplications",
-          href: "/about",
-        },
-      ],
-    },
-  ];
+  label: string;
+  href?: string;
+  /** Classe d'icône (ex: "ri-dashboard-line"). Seulement aux items de niveau 1. */
+  icon?: string;
+  /** ID du collapse Bootstrap, si l'item a un sous-menu */
+  collapseId?: string;
+  children?: NavItem[];
+}
+
+export interface NavSection {
+  /** Titre de section affiché en gris au-dessus du groupe */
+  title: string;
+  items: NavItem[];
+}
+
+export const MENU: NavSection[] = [
+  {
+    title: "Main",
+    items: [
+      { label: "Tableau de bord", icon: "ri-dashboard-line", collapseId: "collapseDashboards", href: "/dashboard" },
+      { label: "Membres", icon: "ri-group-line", collapseId: "collapseApplications", href: "/member" },
+      { label: "Calendrier", icon: "ri-calendar-2-line", collapseId: "collapseApplications", href: "/calendar" },
+      { label: "Activités", icon: "ri-calendar-event-line", collapseId: "collapseApplications", href: "/activity" },
+      { label: "Trésorerie", icon: "ri-wallet-3-line", collapseId: "collapseApplications", href: "/treasury" },
+      { label: "Archives", icon: "ri-archive-2-line", collapseId: "collapseApplications", href: "/archiver" },
+      { label: "À propos", icon: "ri-information-line", collapseId: "collapseApplications", href: "/about" },
+    ],
+  },
+];

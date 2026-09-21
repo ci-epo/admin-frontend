@@ -4,18 +4,26 @@ import React, { useEffect, useRef, useState } from "react";
 
 type StatCardVariant = "card" | "inline";
 
-interface StatCardProps {
-  label: string;
-  value: number;
+interface StatCardFormat {
   prefix?: string;
   suffix?: string;
   separator?: boolean;
+}
+
+interface StatCardIcon {
+  name: string;          // classe icône ex: "ri-money-dollar-circle-line"
+  bgClass?: string;      // classe bg du cercle icône
+  textClass?: string;    // classe texte de l'icône
+}
+
+interface StatCardProps {
+  label: string;
+  value: number;
+  format?: StatCardFormat;
   duration?: number;       // secondes pour l'animation
-  icon?: string;           // classe icône ex: "ri-money-dollar-circle-line"
-  iconBgClass?: string;    // classe bg du cercle icône
-  iconClass?: string;      // classe texte de l'icône
+  icon?: StatCardIcon;
   variant?: StatCardVariant;
-  colClass?: string;
+  /** Classes du conteneur (colonnes de grille comprises). */
   className?: string;
 }
 
@@ -48,17 +56,17 @@ function useCountUp(target: number, duration: number, active: boolean) {
 export default function StatCard({
   label,
   value,
-  prefix = "",
-  suffix = "",
-  separator = true,
+  format = {},
   duration = 5,
   icon,
-  iconBgClass = "bg-light-subtle",
-  iconClass = "fs-24 fw-medium text-light-emphasis",
   variant = "card",
-  colClass = "col-12 col-md-6 col-xl-3",
-  className = "",
+  className = "col-12 col-md-6 col-xl-3",
 }: StatCardProps) {
+  const { prefix = "", suffix = "", separator = true } = format;
+  const {
+    bgClass: iconBgClass = "bg-light-subtle",
+    textClass: iconClass = "fs-24 fw-medium text-light-emphasis",
+  } = icon ?? {};
   const ref = useRef<HTMLDivElement>(null);
   const [started, setStarted] = useState(false);
 
@@ -77,7 +85,7 @@ export default function StatCard({
 
   if (variant === "inline") {
     return (
-      <div ref={ref} className={`${colClass} text-center p-4 ${className}`.trim()}>
+      <div ref={ref} className={`text-center p-4 ${className}`.trim()}>
         <h3 className="fw-bold mb-0">{display}</h3>
         <p className="mb-0 fs-6">{label}</p>
       </div>
@@ -85,7 +93,7 @@ export default function StatCard({
   }
 
   return (
-    <div ref={ref} className={`${colClass} ${className}`.trim()}>
+    <div ref={ref} className={className}>
       <div className="card card-body p-5 rounded-3 mb-0">
         <div className="d-flex justify-content-between align-items-start">
           <div>
@@ -96,7 +104,7 @@ export default function StatCard({
           </div>
           {icon && (
             <div className={`h-48px w-48px ${iconBgClass} rounded-circle d-flex align-items-center justify-content-center`}>
-              <i className={`${icon} ${iconClass}`} aria-hidden="true" />
+              <i className={`${icon.name} ${iconClass}`} aria-hidden="true" />
             </div>
           )}
         </div>

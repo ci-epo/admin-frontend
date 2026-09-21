@@ -1,4 +1,4 @@
-import React from "react";
+import Image from "next/image";
 
 type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 type AvatarColor = "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark";
@@ -23,15 +23,20 @@ interface AvatarTextProps extends AvatarBaseProps {
 
 type AvatarProps = AvatarImageProps | AvatarTextProps;
 
+/** Tailles rendues par les classes `avatar-*` du thème (px). */
+const AVATAR_PX: Record<AvatarSize, number> = { xs: 20, sm: 24, md: 36, lg: 48, xl: 72, xxl: 84 };
+
 export default function Avatar(props: AvatarProps) {
   const { size = "md", className = "" } = props;
 
   if (props.type === "image") {
     return (
       <div className={`avatar-item ${className}`.trim()}>
-        <img
+        <Image
           className={`img-fluid avatar-${size}`}
           src={props.src}
+          width={AVATAR_PX[size]}
+          height={AVATAR_PX[size]}
           alt={props.alt ?? "avatar image"}
         />
       </div>

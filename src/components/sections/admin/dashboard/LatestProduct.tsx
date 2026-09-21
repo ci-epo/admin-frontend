@@ -1,6 +1,4 @@
-"use client";
-
-import React from "react";
+import Image from "next/image";
 
 interface LatestProductProps {
   productCategory: string;
@@ -51,9 +49,10 @@ export default function LatestProduct({
             </div>
           </div>
           <div className="card-body product-body bg-body m-4 mt-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={productImage}
+              width={400}
+              height={300}
               className="img-fluid mx-auto d-block product-img1"
               alt="Product Image"
             />
@@ -75,9 +74,10 @@ export default function LatestProduct({
         <div className="card">
           <div className="card-body">
             <div className="d-flex justify-content-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={bannerImage}
+                width={400}
+                height={300}
                 className="img-fluid"
                 alt="Enhanced Image"
               />

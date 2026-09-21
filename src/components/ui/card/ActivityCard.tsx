@@ -1,4 +1,4 @@
-import React from "react";
+import Image from "next/image";
 
 interface DropdownItem {
   label: string;
@@ -6,8 +6,7 @@ interface DropdownItem {
 }
 
 interface ActivityCardProps {
-  imageSrc: string;
-  imageAlt?: string;
+  image: { src: string; alt?: string };
   title: string;
   description: string;
   footer: string;
@@ -17,8 +16,7 @@ interface ActivityCardProps {
 }
 
 export default function ActivityCard({
-  imageSrc,
-  imageAlt = "",
+  image,
   title,
   description,
   footer,
@@ -32,8 +30,13 @@ export default function ActivityCard({
   return (
     <div className={colClass}>
       <div className="card">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={imageSrc} className="card-img-top" alt={imageAlt} />
+        <Image
+          src={image.src}
+          width={400}
+          height={267}
+          className="card-img-top"
+          alt={image.alt ?? ""}
+        />
 
         <div className="card-header d-flex justify-content-between align-items-center">
           <h5 className="card-title mb-0">{title}</h5>
@@ -43,12 +46,13 @@ export default function ActivityCard({
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
+              aria-label="Actions"
             >
-              <i className="ri-more-2-fill"></i>
+              <i className="ri-more-2-fill" aria-hidden="true"></i>
             </button>
             <ul className="dropdown-menu dropdown-menu-end">
-              {dropdownItems.map((item, i) => (
-                <li key={i}>
+              {dropdownItems.map((item) => (
+                <li key={item.label}>
                   <a className="dropdown-item" href={item.href ?? "#"}>
                     {item.label}
                   </a>

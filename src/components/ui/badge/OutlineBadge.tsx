@@ -5,26 +5,23 @@ type BadgePosition = "inline" | "floating";
 
 interface OutlineBadgeProps {
   label: string;
-  badgeContent: React.ReactNode;
+  badge: { content: React.ReactNode; pill?: boolean; srText?: string };
   variant?: BadgeVariant;
   position?: BadgePosition;
-  pill?: boolean;
-  srText?: string;
   onClick?: () => void;
   className?: string;
 }
 
 export default function OutlineBadge({
   label,
-  badgeContent,
+  badge,
   variant = "primary",
   position = "inline",
-  pill = false,
-  srText,
   onClick,
   className = "",
 }: OutlineBadgeProps) {
   const isFloating = position === "floating";
+  const { content, pill = false, srText } = badge;
 
   const badgeClass = [
     "badge",
@@ -45,7 +42,7 @@ export default function OutlineBadge({
     >
       {label}
       <span className={badgeClass}>
-        {badgeContent}
+        {content}
         {srText && <span className="visually-hidden">{srText}</span>}
       </span>
     </button>

@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { useCallback, useEffect, useId, useState } from "react";
 
 interface CarouselSlide {
   src: string;
@@ -12,13 +13,16 @@ interface CarouselSlide {
 type IndicatorStyle = "default" | "bullet";
 type IndicatorColor = "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark";
 
+interface CarouselIndicators {
+  style?: IndicatorStyle;
+  color?: IndicatorColor;
+}
+
 interface CarouselProps {
-  id: string;
   slides: CarouselSlide[];
   defaultActiveIndex?: number;
-  indicators?: boolean;
-  indicatorStyle?: IndicatorStyle;
-  indicatorColor?: IndicatorColor;
+  /** Présent = indicateurs affichés. */
+  indicators?: CarouselIndicators;
   controls?: boolean;
   fade?: boolean;
   interval?: number | false;
@@ -26,18 +30,17 @@ interface CarouselProps {
 }
 
 export default function Caroussel({
-  id,
   slides,
   defaultActiveIndex = 0,
-  indicators = false,
-  indicatorStyle = "default",
-  indicatorColor,
+  indicators,
   controls = false,
   fade = false,
   interval = 4000,
   className = "",
 }: CarouselProps) {
+  const id = useId();
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
+  const { style: indicatorStyle = "default", color: indicatorColor } = indicators ?? {};
 
   const prev = useCallback(
     () => setActiveIndex((i) => (i - 1 + slides.length) % slides.length),
@@ -93,8 +96,10 @@ export default function Caroussel({
             key={i}
             className={`carousel-item${i === activeIndex ? " active" : ""}`}
           >
-            <img
+            <Image
               src={slide.src}
+              width={800}
+              height={450}
               className="d-block w-100"
               alt={slide.alt ?? `Slide ${i + 1}`}
             />

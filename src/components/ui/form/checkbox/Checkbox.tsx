@@ -1,18 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
+import type { ChangeEvent } from "react";
 
 type CheckColor = "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark";
 type CheckSize  = "sm" | "md" | "lg";
 type CheckVariant = "checkbox" | "switch";
 
+interface CheckboxAppearance {
+  color?: CheckColor;
+  size?: CheckSize;
+  variant?: CheckVariant;
+}
+
 interface CheckboxProps {
   id: string;
   label: string;
   defaultChecked?: boolean;
-  color?: CheckColor;
-  size?: CheckSize;
-  variant?: CheckVariant;
+  appearance?: CheckboxAppearance;
   disabled?: boolean;
   onChange?: (checked: boolean) => void;
   wrapperClass?: string;
@@ -22,16 +27,15 @@ export default function Checkbox({
   id,
   label,
   defaultChecked = false,
-  color,
-  size = "md",
-  variant = "checkbox",
+  appearance = {},
   disabled = false,
   onChange,
   wrapperClass = "",
 }: CheckboxProps) {
+  const { color, size = "md", variant = "checkbox" } = appearance;
   const [checked, setChecked] = useState(defaultChecked);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
     onChange?.(e.target.checked);
   };

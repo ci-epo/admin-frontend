@@ -1,9 +1,8 @@
-"use client";
-
-import React from "react";
+import Image from "next/image";
 import Link from "next/link";
-import NavMenuItem from "./NavMenuItem";
-import { MENU } from "./menuItems";
+import { Fragment } from "react";
+import NavMenuItem from "@/components/sections/admin/navbar/NavMenuItem";
+import { MENU } from "@/components/sections/admin/navbar/menuItems";
 
 /**
  * Sidebar verticale (par défaut). Reproduit le partial sidebar.html.
@@ -14,16 +13,14 @@ export default function Sidebar() {
     <aside className="pe-app-sidebar" id="sidebar">
       <div className="pe-app-sidebar-logo px-6 d-flex align-items-center position-relative">
         <Link href="/" className="d-flex align-items-end logo-main">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             height={40}
             width={40}
             className="logo-dark"
             alt="Logo Club Informatique de l'EPO (CIE)"
             src="/assets/images/logo-md.png"
           />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             height={40}
             width={40}
             className="logo-light"
@@ -49,27 +46,28 @@ export default function Sidebar() {
       >
         <div className="d-flex align-items-start flex-column w-100">
           <ul className="pe-main-menu list-unstyled">
-            {MENU.map((section, sectionIdx) => (
-              <React.Fragment key={sectionIdx}>
+            {MENU.map((section) => (
+              <Fragment key={section.title}>
                 <li className="pe-menu-title">{section.title}</li>
-                {section.items.map((item, itemIdx) => (
-                  <NavMenuItem key={itemIdx} item={item} />
+                {section.items.map((item) => (
+                  <NavMenuItem key={item.href ?? item.label} item={item} />
                 ))}
-              </React.Fragment>
+              </Fragment>
             ))}
           </ul>
 
           {/* Widget en bas du sidebar */}
           <div className="sidebar-widget text-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/assets/images/sidebar-widget.png"
+              width={113}
+              height={111}
               alt="Widget"
             />
             <p className="text-muted fw-semibold">
               Click here to update the new version
             </p>
-            <button className="btn btn-primary rounded-pill w-100">
+            <button type="button" className="btn btn-primary rounded-pill w-100">
               Update Now
             </button>
           </div>

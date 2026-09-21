@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 interface AccordionAvatarItem {
@@ -39,8 +40,10 @@ function AccordionAvatarItemComponent({
           aria-controls={item.id}
         >
           <div className="avatar-image avatar-lg me-3">
-            <img
+            <Image
               className="img-fluid rounded-2"
+              width={48}
+              height={48}
               src={item.avatarSrc}
               alt={item.avatarAlt ?? "avatar image"}
             />

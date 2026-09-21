@@ -1,4 +1,4 @@
-import React from "react";
+import Image from "next/image";
 
 interface ProfileAction {
   label: string;
@@ -8,34 +8,26 @@ interface ProfileAction {
 }
 
 interface ProfileCardProps {
-  avatarSrc: string;
-  avatarAlt?: string;
-  name: string;
-  role: string;
-  company: string;
-  skills?: string[];
-  skillBadgeColor?: string; // ex: "bg-info", "bg-primary"
-  location?: string;
-  experience?: string;
-  education?: string;
+  avatar: { src: string; alt?: string };
+  person: { name: string; role: string; company: string };
+  skills?: { items: string[]; badgeColor?: string };   // badgeColor ex: "bg-info", "bg-primary"
+  details?: { location?: string; experience?: string; education?: string };
   actions?: ProfileAction[];
   className?: string;
 }
 
 export default function ProfileCard({
-  avatarSrc,
-  avatarAlt = "avatar image",
-  name,
-  role,
-  company,
-  skills = [],
-  skillBadgeColor = "bg-info",
-  location,
-  experience,
-  education,
+  avatar,
+  person,
+  skills,
+  details = {},
   actions = [],
   className = "",
 }: ProfileCardProps) {
+  const { name, role, company } = person;
+  const { items: skillItems = [], badgeColor: skillBadgeColor = "bg-info" } = skills ?? {};
+  const { location, experience, education } = details;
+
   return (
     <div className={`col-md-6 col-xl-3 ${className}`.trim()}>
       <div className="card h-100">
@@ -43,10 +35,12 @@ export default function ProfileCard({
 
           {/* Avatar */}
           <div className="avatar-item d-flex mx-auto w-max border-primary">
-            <img
+            <Image
               className="img-fluid avatar-xl"
-              src={avatarSrc}
-              alt={avatarAlt}
+              src={avatar.src}
+              width={72}
+              height={72}
+              alt={avatar.alt ?? "avatar image"}
             />
           </div>
 
@@ -57,11 +51,11 @@ export default function ProfileCard({
           </p>
 
           {/* Skills */}
-          {skills.length > 0 && (
+          {skillItems.length > 0 && (
             <div className="skills mb-3">
               <strong>✨ Skills:</strong>
               <ul className="list-unstyled d-flex justify-content-center flex-wrap mt-2">
-                {skills.map((skill) => (
+                {skillItems.map((skill) => (
                   <li key={skill} className={`badge ${skillBadgeColor} me-1`}>
                     {skill}
                   </li>

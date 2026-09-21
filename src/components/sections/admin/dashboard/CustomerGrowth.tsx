@@ -1,6 +1,5 @@
-"use client";
-
-import React from "react";
+import { Fragment } from "react";
+import Image from "next/image";
 import type { CountryGrowth, CountryBubble } from "@/types/dashboard";
 
 interface CustomerGrowthProps {
@@ -44,9 +43,8 @@ export default function CustomerGrowth({
             className="d-flex align-items-center gap-4 mb-5"
           >
             {pair.map((country) => (
-              <React.Fragment key={country.name}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+              <Fragment key={country.name}>
+                <Image
                   src={country.flagUrl}
                   height={30}
                   width={30}
@@ -64,7 +62,7 @@ export default function CustomerGrowth({
                     ></div>
                   </div>
                 </div>
-              </React.Fragment>
+              </Fragment>
             ))}
           </div>
         ))}

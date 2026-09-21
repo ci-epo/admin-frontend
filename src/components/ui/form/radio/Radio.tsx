@@ -1,20 +1,19 @@
-"use client";
-
-import React from "react";
+import type { InputHTMLAttributes } from "react";
 
 type RadioColor = "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark";
 type RadioSize  = "sm" | "md" | "lg";
 
-interface RadioProps {
-  id: string;
-  label: string;
-  name: string;
-  value?: string;
-  checked?: boolean;
-  defaultChecked?: boolean;
+interface RadioAppearance {
   color?: RadioColor;
   size?: RadioSize;
-  disabled?: boolean;
+}
+
+/** `name`, `value`, `checked`, `defaultChecked`, `disabled`… restent les attributs natifs de <input>. */
+interface RadioProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "onChange" | "size" | "color"> {
+  id: string;
+  label: string;
+  appearance?: RadioAppearance;
   onChange?: (value: string) => void;
   wrapperClass?: string;
 }
@@ -22,16 +21,14 @@ interface RadioProps {
 export default function Radio({
   id,
   label,
-  name,
   value = "",
-  checked,
-  defaultChecked,
-  color,
-  size = "md",
-  disabled = false,
+  appearance = {},
   onChange,
   wrapperClass = "",
+  ...rest
 }: RadioProps) {
+  const { color, size = "md" } = appearance;
+
   const wrapperCls = [
     "form-check",
     size === "sm" ? "form-check-sm" : size === "lg" ? "form-check-lg" : "",
@@ -41,21 +38,15 @@ export default function Radio({
     .filter(Boolean)
     .join(" ");
 
-  const inputProps = checked !== undefined
-    ? { checked }
-    : { defaultChecked };
-
   return (
     <div className={wrapperCls}>
       <input
         className="form-check-input"
         type="radio"
         id={id}
-        name={name}
         value={value}
-        disabled={disabled}
-        onChange={() => onChange?.(value)}
-        {...inputProps}
+        onChange={() => onChange?.(String(value))}
+        {...rest}
       />
       <label className="form-check-label" htmlFor={id}>
         {label}

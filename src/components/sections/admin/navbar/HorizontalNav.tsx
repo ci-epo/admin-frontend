@@ -1,8 +1,6 @@
-"use client";
-
-import React from "react";
-import NavMenuItem from "./NavMenuItem";
-import { MENU } from "./menuItems";
+import { Fragment } from "react";
+import NavMenuItem from "@/components/sections/admin/navbar/NavMenuItem";
+import { MENU } from "@/components/sections/admin/navbar/menuItems";
 
 /**
  * Navigation horizontale. Reproduit le partial horizontal.html.
@@ -18,13 +16,13 @@ export default function HorizontalNav() {
             className="pe-horizontal-menu mb-0 list-unstyled"
             id="horizontal-menu"
           >
-            {MENU.map((section, sectionIdx) => (
-              <React.Fragment key={sectionIdx}>
+            {MENU.map((section) => (
+              <Fragment key={section.title}>
                 <li className="pe-menu-title">{section.title}</li>
-                {section.items.map((item, itemIdx) => (
-                  <NavMenuItem key={itemIdx} item={item} />
+                {section.items.map((item) => (
+                  <NavMenuItem key={item.href ?? item.label} item={item} />
                 ))}
-              </React.Fragment>
+              </Fragment>
             ))}
           </ul>
         </nav>

@@ -1,10 +1,7 @@
-import React from "react";
-
 interface CourseCardProps {
   title: string;
   description: string;
-  rating: number;        // valeur entre 0 et 5
-  maxRating?: number;    // défaut 5
+  rating: { value: number; max?: number };   // max : 5 par défaut
   startDate: string;
   enrollHref?: string;
   onEnroll?: () => void;
@@ -29,7 +26,6 @@ export default function CourseCard({
   title,
   description,
   rating,
-  maxRating = 5,
   startDate,
   enrollHref = "#",
   onEnroll,
@@ -44,7 +40,7 @@ export default function CourseCard({
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center gap-2">
               <span>Rating:</span>
-              <StarRating rating={rating} max={maxRating} />
+              <StarRating rating={rating.value} max={rating.max} />
             </div>
             <a
               href={onEnroll ? undefined : enrollHref}

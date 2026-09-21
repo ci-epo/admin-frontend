@@ -1,14 +1,11 @@
-"use client";
-
-import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function AuthHeader() {
   return (
     <header className="px-3 px-md-8 py-5 position-absolute top-0 d-flex justify-content-between align-items-center w-100 z-1">
       <Link href="/" className="d-flex align-items-end logo-main">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           height={40}
           width={40}
           className="logo-dark"

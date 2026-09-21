@@ -1,4 +1,9 @@
-import type { ArchiveCategoryFilter, ArchiveItem, ArchiveTypeTab } from "@/types/archive";
+import type {
+  ArchiveCategoryFilter,
+  ArchiveItem,
+  ArchiveType,
+  ArchiveTypeTab,
+} from "@/types/archive";
 
 export const ARCHIVE_TYPE_TABS: ArchiveTypeTab[] = [
   { type: "documents", label: "Documents", icon: "ri-file-text-line", count: 14 },
@@ -287,4 +292,17 @@ export const ARCHIVE_ITEMS: ArchiveItem[] = [
     visibility: "public",
     thumbnailSrc: "/assets/images/small/img-7.jpg",
   },
+];
+
+export const ARCHIVE_CATEGORIES_BY_TYPE: Record<ArchiveType, ArchiveCategoryFilter[]> = {
+  documents: DOCUMENT_CATEGORIES,
+  code: CODE_CATEGORIES,
+  medias: MEDIA_CATEGORIES,
+  evenements: EVENT_CATEGORIES,
+};
+
+export const ARCHIVE_HERO_STATS = [
+  { value: "34", label: "Éléments" },
+  { value: "1,3 Go", label: "Stockage" },
+  { value: "2025", label: "Dernier ajout" },
 ];

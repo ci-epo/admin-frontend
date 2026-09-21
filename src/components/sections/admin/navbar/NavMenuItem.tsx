@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { NavItem } from "./menuItems";
+import type { NavItem } from "@/components/sections/admin/navbar/menuItems";
 
 interface NavMenuItemProps {
   item: NavItem;
@@ -12,23 +11,20 @@ interface NavMenuItemProps {
 }
 
 export default function NavMenuItem({ item, level = 0 }: NavMenuItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const hasChildren = !!item.children && item.children.length > 0;
 
   // Item actif si son href correspond exactement à l'URL courante
   const isActive = item.href === pathname;
 
-  
-
   return (
-    <li className={`pe-slide pe-has-sub`}>
+    <li className="pe-slide pe-has-sub">
       {hasChildren ? (
         <a
           href={`#${item.collapseId ?? ""}`}
           className="pe-nav-link"
           data-bs-toggle="collapse"
-          aria-expanded={isOpen}
+          aria-expanded="false"
           aria-controls={item.collapseId}
         >
           {item.icon && <i className={`${item.icon} pe-nav-icon`}></i>}
@@ -46,12 +42,9 @@ export default function NavMenuItem({ item, level = 0 }: NavMenuItemProps) {
       )}
 
       {hasChildren && (
-        <ul
-          id={item.collapseId}
-          className={`pe-slide-menu collapse ${isOpen ? "show" : ""}`}
-        >
-          {item.children!.map((child, idx) => (
-            <NavMenuItem key={idx} item={child} level={level + 1} />
+        <ul id={item.collapseId} className="pe-slide-menu collapse">
+          {item.children!.map((child) => (
+            <NavMenuItem key={child.label} item={child} level={level + 1} />
           ))}
         </ul>
       )}

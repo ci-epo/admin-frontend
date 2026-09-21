@@ -1,1 +1,1 @@
-export { default as AppCalendar } from "./AppCalendar";
+export { default as AppCalendar } from "@/components/sections/admin/calendar/AppCalendar";

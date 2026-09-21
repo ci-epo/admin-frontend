@@ -1,6 +1,7 @@
-import type { TreasuryStatItem, TreasuryTransaction } from "@/types/treasury";
+import type { StatItem } from "@/types/stat";
+import type { TreasuryTransaction } from "@/types/treasury";
 
-export const TREASURY_STATS: TreasuryStatItem[] = [
+export const TREASURY_STATS: StatItem[] = [
   {
     icon: "ri-wallet-3-line",
     value: "847 500 FCFA",
@@ -140,14 +141,3 @@ export const TREASURY_TRANSACTIONS: TreasuryTransaction[] = [
     soldeApres: 240000,
   },
 ];
-
-function formatMontant(amount: number): string {
-  const formatted = Math.abs(amount).toLocaleString("fr-FR");
-  return amount >= 0 ? `+${formatted} FCFA` : `-${formatted} FCFA`;
-}
-
-function formatSolde(amount: number): string {
-  return `${amount.toLocaleString("fr-FR")} FCFA`;
-}
-
-export { formatMontant, formatSolde };

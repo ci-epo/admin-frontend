@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useId } from "react";
 
 interface ModalAction {
   label: string;
@@ -9,30 +9,31 @@ interface ModalAction {
   dismiss?: boolean;      // ferme le modal au clic
 }
 
-interface ModalProps {
-  id: string;
-  title: React.ReactNode;
-  children: React.ReactNode;
-  footer?: ModalAction[];
+interface ModalDialogOptions {
   size?: "sm" | "md" | "lg" | "xl";
   centered?: boolean;
   scrollable?: boolean;
+}
+
+interface ModalProps {
+  title: React.ReactNode;
+  children: React.ReactNode;
+  footer?: ModalAction[];
+  dialog?: ModalDialogOptions;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export default function Modal({
-  id,
   title,
   children,
   footer,
-  size = "md",
-  centered = false,
-  scrollable = false,
+  dialog = {},
   isOpen,
   onClose,
 }: ModalProps) {
-  const backdropRef = useRef<HTMLDivElement>(null);
+  const id = useId();
+  const { size = "md", centered = false, scrollable = false } = dialog;
 
   // Fermeture sur Escape
   useEffect(() => {
@@ -64,7 +65,6 @@ export default function Modal({
     <>
       {/* Backdrop */}
       <div
-        ref={backdropRef}
         className="modal-backdrop fade show"
         onClick={onClose}
       />

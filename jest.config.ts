@@ -1,15 +1,18 @@
-const nextJest = require("next/jest");
+import type { Config } from "jest";
+import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({
-  dir: "./", // chemin racine de ton projet
+  dir: "./",
 });
 
-const customJestConfig = {
+const config: Config = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-  testEnvironment: "jsdom", // pour React
+  testEnvironment: "jsdom",
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/$1", // pour les imports absolus
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
+  // Les specs Playwright (__tests__/e2e) ne doivent pas être exécutées par Jest.
+  testPathIgnorePatterns: ["/node_modules/", "/.next/", "<rootDir>/__tests__/e2e/"],
 };
 
-module.exports = createJestConfig(customJestConfig);
+export default createJestConfig(config);

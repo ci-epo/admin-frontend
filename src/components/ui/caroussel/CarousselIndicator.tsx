@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { useCallback, useEffect, useId, useState } from "react";
+import type { ReactNode } from "react";
 
 interface CarouselSlide {
   src: string;
@@ -11,30 +13,27 @@ type IndicatorStyle = "dots" | "bullet";
 type IndicatorColor = "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark";
 
 interface CarouselIndicatorProps {
-  id: string;
   title: string;
-  description: React.ReactNode;
+  description: ReactNode;
   slides: CarouselSlide[];
-  indicatorStyle?: IndicatorStyle;
-  indicatorColor?: IndicatorColor;
+  indicator?: { style?: IndicatorStyle; color?: IndicatorColor };
   defaultActiveIndex?: number;
   interval?: number | false;
-  colClass?: string;
+  /** Classes du conteneur (colonnes de grille comprises). */
   className?: string;
 }
 
 export default function CarouselIndicator({
-  id,
   title,
   description,
   slides,
-  indicatorStyle = "dots",
-  indicatorColor = "primary",
+  indicator = {},
   defaultActiveIndex = 0,
   interval = 4000,
-  colClass = "col-12 col-md-6 col-xl-4",
-  className = "",
+  className = "col-12 col-md-6 col-xl-4",
 }: CarouselIndicatorProps) {
+  const id = useId();
+  const { style: indicatorStyle = "dots", color: indicatorColor = "primary" } = indicator;
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
 
   const next = useCallback(
@@ -55,7 +54,7 @@ export default function CarouselIndicator({
   ].join(" ");
 
   return (
-    <div className={`${colClass} ${className}`.trim()}>
+    <div className={className}>
       <div
         id={id}
         className="card carousel-custom carousel slide pointer-event"
@@ -86,8 +85,10 @@ export default function CarouselIndicator({
                 key={i}
                 className={`carousel-item${i === activeIndex ? " active" : ""}`}
               >
-                <img
+                <Image
                   src={slide.src}
+                  width={400}
+                  height={300}
                   className="d-block w-100"
                   alt={slide.alt ?? `Product Image`}
                 />

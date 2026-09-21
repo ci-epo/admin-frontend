@@ -1,44 +1,33 @@
-"use client";
-
-import React, { useState } from "react";
-
-type PaginationSize    = "sm" | "md" | "lg";
-type PaginationColor   =
+type PaginationSize = "sm" | "md" | "lg";
+type PaginationColor =
   | "primary" | "secondary" | "success" | "danger"
   | "warning" | "info" | "light" | "dark";
 
-interface PaginationProps {
-  totalPages: number;
-  defaultPage?: number;
+interface PaginationAppearance {
   size?: PaginationSize;
   rounded?: boolean;
   color?: PaginationColor;
+}
+
+interface PaginationProps {
+  /** Page courante (1-indexée) — composant contrôlé. */
+  page: number;
+  totalPages: number;
+  onChange: (page: number) => void;
+  appearance?: PaginationAppearance;
   ariaLabel?: string;
-  prevIcon?: string;
-  nextIcon?: string;
-  onChange?: (page: number) => void;
   className?: string;
 }
 
 export default function Pagination({
+  page,
   totalPages,
-  defaultPage = 1,
-  size = "md",
-  rounded = false,
-  color,
-  ariaLabel = "Page navigation",
-  prevIcon = "ri-arrow-left-s-line fw-semibold",
-  nextIcon = "ri-arrow-right-s-line fw-semibold",
   onChange,
+  appearance = {},
+  ariaLabel = "Pagination",
   className = "",
 }: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(defaultPage);
-
-  const goTo = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
-    onChange?.(page);
-  };
+  const { size = "md", rounded = false, color } = appearance;
 
   const ulClass = [
     "pagination",
@@ -51,48 +40,46 @@ export default function Pagination({
     .filter(Boolean)
     .join(" ");
 
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
   return (
     <nav aria-label={ariaLabel}>
       <ul className={ulClass}>
-        {/* Prev */}
-        <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
-          <a
+        <li className={`page-item${page === 1 ? " disabled" : ""}`}>
+          <button
+            type="button"
             className="page-link"
-            href="#"
-            aria-label="Previous"
-            onClick={(e) => { e.preventDefault(); goTo(currentPage - 1); }}
+            aria-label="Page précédente"
+            disabled={page === 1}
+            onClick={() => onChange(page - 1)}
           >
-            <i className={prevIcon} aria-hidden="true" />
-          </a>
+            <i className="ri-arrow-left-s-line fw-semibold" aria-hidden="true" />
+          </button>
         </li>
 
-        {/* Pages */}
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <li
-            key={page}
-            className={`page-item${page === currentPage ? " active" : ""}`}
-          >
-            <a
+        {pages.map((p) => (
+          <li key={p} className={`page-item${p === page ? " active" : ""}`}>
+            <button
+              type="button"
               className="page-link"
-              href="#"
-              aria-current={page === currentPage ? "page" : undefined}
-              onClick={(e) => { e.preventDefault(); goTo(page); }}
+              aria-current={p === page ? "page" : undefined}
+              onClick={() => onChange(p)}
             >
-              {page}
-            </a>
+              {p}
+            </button>
           </li>
         ))}
 
-        {/* Next */}
-        <li className={`page-item${currentPage === totalPages ? " disabled" : ""}`}>
-          <a
+        <li className={`page-item${page === totalPages ? " disabled" : ""}`}>
+          <button
+            type="button"
             className="page-link"
-            href="#"
-            aria-label="Next"
-            onClick={(e) => { e.preventDefault(); goTo(currentPage + 1); }}
+            aria-label="Page suivante"
+            disabled={page === totalPages}
+            onClick={() => onChange(page + 1)}
           >
-            <i className={nextIcon} aria-hidden="true" />
-          </a>
+            <i className="ri-arrow-right-s-line fw-semibold" aria-hidden="true" />
+          </button>
         </li>
       </ul>
     </nav>

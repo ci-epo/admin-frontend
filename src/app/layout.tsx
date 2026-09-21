@@ -2,11 +2,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import type { ReactNode } from "react";
-import { Sidebar, HorizontalNav } from "@/components/sections/admin/navbar";
-import { Header, NOTIFICATIONS, CART_ITEMS, CURRENT_USER } from "@/components/sections/admin/header";
-import Footer from "@/components/sections/admin/Footer";
-import ScrollToTop from "@/components/ui/scroll_to_top/ScrollToTop";
-
 
 export const metadata: Metadata = {
   title: "CIE Admin",
@@ -16,7 +11,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html
-      lang="en"
+      lang="fr"
       data-layout="horizontal"
       data-topbar-theme="dark"
       data-bs-theme="light"
@@ -39,7 +34,6 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       </head>
 
       <body suppressHydrationWarning>
-        
         <div>{children}</div>
 
         <Script src="/assets/libs/swiper/swiper-bundle.min.js" strategy="afterInteractive" />

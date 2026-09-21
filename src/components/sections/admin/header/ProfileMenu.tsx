@@ -1,7 +1,6 @@
-"use client";
-
-import React from "react";
-import type { UserProfile } from "./types";
+import Image from "next/image";
+import Link from "next/link";
+import type { UserProfile } from "@/components/sections/admin/header/types";
 
 interface ProfileMenuProps {
   user: UserProfile;
@@ -21,9 +20,10 @@ export default function ProfileMenu({ user }: ProfileMenuProps) {
           <span className="d-block mb-0 fs-10 text-muted">{user.email}</span>
         </div>
         <span className="header-btn btn position-relative">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={user.avatarUrl}
+            width={36}
+            height={36}
             alt="Avatar"
             className="img-fluid rounded-circle"
           />
@@ -32,8 +32,7 @@ export default function ProfileMenu({ user }: ProfileMenuProps) {
 
       <div className="dropdown-menu dropdown-mega-sm header-dropdown-menu p-3">
         <div className="border-bottom pb-2 mb-2 d-flex align-items-center gap-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={user.avatarUrl} alt="Avatar" className="avatar-md" />
+          <Image src={user.avatarUrl} width={36} height={36} alt="Avatar" className="avatar-md" />
           <div>
             <a href="#">
               <h6 className="mb-0 lh-base">{user.name}</h6>
@@ -44,19 +43,19 @@ export default function ProfileMenu({ user }: ProfileMenuProps) {
 
         <ul className="list-unstyled mb-1 border-bottom pb-1">
           <li>
-            <a className="dropdown-item" href="/pages/profile">
+            <Link className="dropdown-item" href="/pages/profile">
               <i className="bi bi-person me-2"></i> View Profile
-            </a>
+            </Link>
           </li>
           <li>
-            <a className="dropdown-item" href="/pages/profile">
+            <Link className="dropdown-item" href="/pages/profile">
               <i className="bi bi-gear me-2"></i> Settings
-            </a>
+            </Link>
           </li>
           <li>
-            <a className="dropdown-item" href="/pages/billing-subscription">
+            <Link className="dropdown-item" href="/pages/billing-subscription">
               <i className="bi bi-award me-2"></i> Subscription
-            </a>
+            </Link>
           </li>
         </ul>
 
@@ -67,9 +66,9 @@ export default function ProfileMenu({ user }: ProfileMenuProps) {
             </a>
           </li>
           <li>
-            <a className="dropdown-item" href="/pages/pricing">
+            <Link className="dropdown-item" href="/pages/pricing">
               <i className="bi bi-currency-dollar me-2"></i> Pricing
-            </a>
+            </Link>
           </li>
           <li>
             <a className="dropdown-item" href="#">
@@ -80,9 +79,9 @@ export default function ProfileMenu({ user }: ProfileMenuProps) {
 
         <ul className="list-unstyled mb-0">
           <li>
-            <a className="dropdown-item" href="/auth/signout">
+            <Link className="dropdown-item" href="/auth/signout">
               <i className="bi bi-box-arrow-right me-2"></i> Sign Out
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

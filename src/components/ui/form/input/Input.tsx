@@ -6,8 +6,6 @@ type InputRound  = "0" | "1" | "2" | "3" | "4" | "5" | "pill";
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   id: string;
   label?: string;
-  required?: boolean;
-  readOnly?: boolean;
   size?: InputSize;
   rounded?: InputRound;
   error?: string;          // message d'erreur → état is-invalid
@@ -18,7 +16,6 @@ export default function Input({
   id,
   label,
   required = false,
-  readOnly = false,
   size = "md",
   rounded,
   error,
@@ -46,7 +43,6 @@ export default function Input({
         type={type}
         className={inputClass}
         required={required}
-        readOnly={readOnly}
         aria-describedby={isInvalid ? `${id}-error` : undefined}
         aria-invalid={isInvalid || undefined}
         {...rest}

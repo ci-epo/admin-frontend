@@ -10,8 +10,8 @@ import type {
     ProductCategory,
     CountryGrowth,
     CountryBubble,
-    StatItem,
   } from "@/types/dashboard";
+import type { StatItem } from "@/types/stat";
   
   export const STATS: StatItem[] = [
     {

@@ -7,9 +7,5 @@ export const metadata = {
 };
 
 export default function MembresPage() {
-  return (
-    <>
-      <MemberTable members={MEMBERS} />
-    </>
-  );
+  return <MemberTable members={MEMBERS} />;
 }

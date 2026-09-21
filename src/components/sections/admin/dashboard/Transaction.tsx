@@ -1,7 +1,3 @@
-"use client";
-
-import React from "react";
-
 /**
  * Carte "Recent Sales". Le tableau est généré par GridJS via
  * le script /assets/libs/gridjs/gridjs.umd.js qui cherche #gridjs_sort-table.

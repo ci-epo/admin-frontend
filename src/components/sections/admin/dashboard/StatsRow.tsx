@@ -1,6 +1,6 @@
-import React from "react";
+import Image from "next/image";
 import StatCard from "@/components/ui/stat_card/StatCard";
-import type { StatItem } from "@/types/dashboard";
+import type { StatItem } from "@/types/stat";
 
 interface StatsRowProps {
   stats: StatItem[];
@@ -11,17 +11,9 @@ export default function StatsRow({ stats }: StatsRowProps) {
     <div className="row">
       <div className="col-xxl-8">
         <div className="row h-100">
-          {stats.map((stat, idx) => (
-            <div key={idx} className="col-xl-4 col-sm-6">
-              <StatCard
-                icon={stat.icon}
-                value={stat.value}
-                label={stat.label}
-                caption={stat.caption}
-                captionHighlight={stat.captionHighlight}
-                highlightColor={stat.highlightColor}
-                trend={stat.trend}
-              />
+          {stats.map((stat) => (
+            <div key={stat.label} className="col-xl-4 col-sm-6">
+              <StatCard {...stat} />
             </div>
           ))}
         </div>
@@ -32,24 +24,24 @@ export default function StatsRow({ stats }: StatsRowProps) {
           <div className="row">
             <div className="col-8">
               <div className="vector-image">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   className="img-fluid welcome-img w-200px mb-n20 mt-n5"
                   src="/assets/images/dashboard/upgrade-img.png"
+                  width={200}
+                  height={200}
                   alt="CRM Vector"
                 />
               </div>
             </div>
             <div className="col-4">
               <div className="text-end">
-                <p className="mb-5 fs-16 fw-semibold text-white">
-                </p>
-                <a
-                  href="#"
+                <p className="mb-5 fs-16 fw-semibold text-white"></p>
+                <button
+                  type="button"
                   className="btn text-white border border-white mt-1"
                 >
                   Upgrade
-                </a>
+                </button>
               </div>
             </div>
           </div>

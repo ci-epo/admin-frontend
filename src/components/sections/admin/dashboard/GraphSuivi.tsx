@@ -1,7 +1,3 @@
-"use client";
-
-import React from "react";
-
 /**
  * Carte "Average Order Value" avec onglets Line/Bar.
  * Le contenu des onglets (#average-line, #average-bar) est rempli

@@ -1,7 +1,3 @@
-"use client";
-
-import React from "react";
-
 /**
  * Toggle clair / sombre. La logique d'ajout/retrait de la classe
  * data-bs-theme sur <html> est gérée par /assets/js/layout-setup.js

@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Fond décoratif (formes, motifs) affiché derrière les pages d'authentification.
  * Les visuels eux-mêmes sont en CSS dans le thème (classes bg-pattern,

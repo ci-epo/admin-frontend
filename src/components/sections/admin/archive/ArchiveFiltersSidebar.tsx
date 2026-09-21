@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
+import ArchiveFilterChips from "@/components/sections/admin/archive/ArchiveFilterChips";
+import InputIcon from "@/components/ui/form/input/InputIcon";
 import type { ArchiveCategoryFilter, ArchiveType } from "@/types/archive";
 
 interface ArchiveFiltersSidebarProps {
@@ -10,6 +12,19 @@ interface ArchiveFiltersSidebarProps {
   onCategoryChange: (id: string) => void;
   onReset: () => void;
   offcanvasId?: string;
+}
+
+const FORMAT_CHIPS: Record<ArchiveType, string[]> = {
+  documents: ["PDF", "DOC", "XLS", "ZIP"],
+  code: ["TypeScript", "JavaScript", "Python", "SQL", "ZIP"],
+  medias: ["Photos", "Vidéos", "PDF"],
+  evenements: ["Sport", "Culture", "Formation"],
+};
+
+const VISIBILITY_CHIPS = ["Public", "Membres", "Bureau"];
+
+function toggleValue(list: string[], value: string): string[] {
+  return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 }
 
 export default function ArchiveFiltersSidebar({
@@ -22,28 +37,9 @@ export default function ArchiveFiltersSidebar({
 }: ArchiveFiltersSidebarProps) {
   const [activeFormats, setActiveFormats] = useState<string[]>([]);
   const [activeVisibility, setActiveVisibility] = useState<string[]>([]);
+  const searchId = useId();
 
   const yearTitle = activeType === "evenements" ? "Année de l'événement" : "Année d'archivage";
-  const formatChips =
-    activeType === "documents"
-      ? ["PDF", "DOC", "XLS", "ZIP"]
-      : activeType === "code"
-        ? ["TypeScript", "JavaScript", "Python", "SQL", "ZIP"]
-        : activeType === "medias"
-          ? ["Photos", "Vidéos", "PDF"]
-          : activeType === "evenements"
-            ? ["Sport", "Culture", "Formation"]
-            : [];
-
-  const visibilityChips = ["Public", "Membres", "Bureau"];
-
-  const toggle = (
-    value: string,
-    list: string[],
-    setList: (v: string[]) => void
-  ) => {
-    setList(list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
-  };
 
   const handleReset = () => {
     setActiveFormats([]);
@@ -67,14 +63,15 @@ export default function ArchiveFiltersSidebar({
       </div>
 
       <div className="px-4 pt-3">
-        <div className="form-icon right">
-          <input
-            type="text"
-            className="form-control rounded-3 form-control-icon"
-            placeholder="Rechercher dans les filtres..."
-          />
-          <i className="ri-search-2-line text-muted"></i>
-        </div>
+        <InputIcon
+          id={`${searchId}-filters`}
+          type="search"
+          icon="ri-search-2-line text-muted"
+          iconPosition="right"
+          className="rounded-3"
+          placeholder="Rechercher dans les filtres..."
+          aria-label="Rechercher dans les filtres"
+        />
       </div>
 
       <div className="card-body border-bottom">
@@ -101,46 +98,42 @@ export default function ArchiveFiltersSidebar({
         <h4 className="text-muted text-uppercase fs-12 fw-medium mb-3">{yearTitle}</h4>
         <div className="row g-2">
           <div className="col-6">
-            <input type="number" className="form-control form-control-sm" placeholder="De" defaultValue={2020} />
+            <input
+              type="number"
+              className="form-control form-control-sm"
+              placeholder="De"
+              aria-label="Année de début"
+              defaultValue={2020}
+            />
           </div>
           <div className="col-6">
-            <input type="number" className="form-control form-control-sm" placeholder="À" defaultValue={2025} />
+            <input
+              type="number"
+              className="form-control form-control-sm"
+              placeholder="À"
+              aria-label="Année de fin"
+              defaultValue={2025}
+            />
           </div>
         </div>
       </div>
 
       <div className="card-body border-bottom">
-        <h4 className="text-muted text-uppercase fs-12 fw-medium mb-3">Format</h4>
-        <div className="d-flex flex-wrap gap-2">
-          {formatChips.map((chip) => (
-            <button
-              key={chip}
-              type="button"
-              className={`archive-chip${activeFormats.includes(chip) ? " active" : ""}`}
-              aria-pressed={activeFormats.includes(chip)}
-              onClick={() => toggle(chip, activeFormats, setActiveFormats)}
-            >
-              {chip}
-            </button>
-          ))}
-        </div>
+        <ArchiveFilterChips
+          title="Format"
+          options={FORMAT_CHIPS[activeType]}
+          selected={activeFormats}
+          onToggle={(value) => setActiveFormats((list) => toggleValue(list, value))}
+        />
       </div>
 
       <div className="card-body">
-        <h4 className="text-muted text-uppercase fs-12 fw-medium mb-3">Visibilité</h4>
-        <div className="d-flex flex-wrap gap-2">
-          {visibilityChips.map((chip) => (
-            <button
-              key={chip}
-              type="button"
-              className={`archive-chip${activeVisibility.includes(chip) ? " active" : ""}`}
-              aria-pressed={activeVisibility.includes(chip)}
-              onClick={() => toggle(chip, activeVisibility, setActiveVisibility)}
-            >
-              {chip}
-            </button>
-          ))}
-        </div>
+        <ArchiveFilterChips
+          title="Visibilité"
+          options={VISIBILITY_CHIPS}
+          selected={activeVisibility}
+          onToggle={(value) => setActiveVisibility((list) => toggleValue(list, value))}
+        />
       </div>
     </div>
   );

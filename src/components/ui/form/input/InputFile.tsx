@@ -8,14 +8,19 @@ type BtnVariant = "primary" | "secondary" | "success" | "danger" | "warning" | "
   | "outline-warning" | "outline-info" | "outline-light" | "outline-dark";
 type IconPosition = "left" | "right";
 
+interface InputFileButton {
+  variant?: BtnVariant;
+  label?: string;
+  icon?: string;
+  iconPosition?: IconPosition;
+}
+
 interface InputFileProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
   id?: string;
   label?: string;
   variant?: InputFileVariant;
-  btnVariant?: BtnVariant;
-  btnLabel?: string;
-  icon?: string;
-  iconPosition?: IconPosition;
+  /** Options du bouton (variante "button" uniquement). */
+  button?: InputFileButton;
   error?: string;
   onFileChange?: (files: FileList | null) => void;
   wrapperClass?: string;
@@ -25,16 +30,19 @@ export default function InputFile({
   id,
   label,
   variant = "native",
-  btnVariant = "primary",
-  btnLabel = "Choose File",
-  icon = "ri-upload-2-line",
-  iconPosition = "left",
+  button = {},
   error,
   onFileChange,
   wrapperClass = "",
   className = "",
   ...rest
 }: InputFileProps) {
+  const {
+    variant: btnVariant = "primary",
+    label: btnLabel = "Choose File",
+    icon = "ri-upload-2-line",
+    iconPosition = "left",
+  } = button;
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string>("");
 

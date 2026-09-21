@@ -32,3 +32,7 @@ export interface ArchiveTypeTab {
   icon: string;
   count: number;
 }
+
+export type ArchiveSortKey = "recent" | "year-desc" | "year-asc" | "title";
+
+export type ArchiveViewMode = "grid" | "list";

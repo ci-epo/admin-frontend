@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import Image from "next/image";
+import { useId, useState } from "react";
 
 interface CarouselImage {
   src: string;
@@ -8,37 +9,34 @@ interface CarouselImage {
 }
 
 interface CarouselCardProps {
-  id: string;
   images: CarouselImage[];
   defaultActiveIndex?: number;
   title: string;
   description: string;
   soldPercent?: number;       // 0-100
-  buyHref?: string;
-  onBuy?: () => void;
-  colClass?: string;
+  buy?: { href?: string; onClick?: () => void };
+  /** Classes du conteneur (colonnes de grille comprises). */
   className?: string;
 }
 
 export default function CarouselCard({
-  id,
   images,
   defaultActiveIndex = 0,
   title,
   description,
   soldPercent,
-  buyHref = "#",
-  onBuy,
-  colClass = "col-md-6 col-xl-4",
-  className = "",
+  buy = {},
+  className = "col-md-6 col-xl-4",
 }: CarouselCardProps) {
+  const id = useId();
+  const { href: buyHref = "#", onClick: onBuy } = buy;
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
 
   const prev = () => setActiveIndex((i) => (i - 1 + images.length) % images.length);
   const next = () => setActiveIndex((i) => (i + 1) % images.length);
 
   return (
-    <div className={`${colClass} ${className}`.trim()}>
+    <div className={className}>
       <div className="card card-h-100">
 
         {/* Carousel */}
@@ -46,8 +44,10 @@ export default function CarouselCard({
           <div className="carousel-inner">
             {images.map((img, i) => (
               <div key={i} className={`carousel-item${i === activeIndex ? " active" : ""}`}>
-                <img
+                <Image
                   src={img.src}
+                  width={400}
+                  height={300}
                   className="d-block w-100"
                   alt={img.alt ?? `Product Image ${i + 1}`}
                 />

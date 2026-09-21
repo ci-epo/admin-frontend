@@ -1,7 +1,6 @@
-"use client";
-
-import React from "react";
-import type { CartItem } from "./types";
+import Image from "next/image";
+import Link from "next/link";
+import type { CartItem } from "@/components/sections/admin/header/types";
 
 interface CartDropdownProps {
   items: CartItem[];
@@ -48,21 +47,19 @@ export default function CartDropdown({
             {items.map((item) => (
               <li key={item.id} className="cart-item">
                 <div className="d-flex items-start cart-dropdown-item">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={item.imageUrl}
+                    width={48}
+                    height={48}
                     className="avatar-lg me-4 p-1 rounded border"
                     alt={item.name}
                   />
                   <div className="flex-grow-1">
                     <div>
                       <h6>
-                        <a
-                          href={item.href ?? "#"}
-                          className="text-reset"
-                        >
+                        <Link href={item.href ?? "#"} className="text-reset">
                           {item.name}
-                        </a>
+                        </Link>
                       </h6>
                       <p className="mb-0 fs-12 text-muted">
                         Quantity:{" "}
@@ -100,14 +97,12 @@ export default function CartDropdown({
           </div>
 
           <div className="p-5 d-flex justify-content-end gap-3">
-            <a href={viewCartHref}>
-              <button className="btn btn-light" type="button">
-                View Cart
-              </button>
-            </a>
-            <a className="btn btn-primary view-checkout" href={checkoutHref}>
+            <Link className="btn btn-light" href={viewCartHref}>
+              View Cart
+            </Link>
+            <Link className="btn btn-primary view-checkout" href={checkoutHref}>
               Checkout
-            </a>
+            </Link>
           </div>
         </div>
       </ul>

@@ -1,7 +1,3 @@
-"use client";
-
-import React from "react";
-
 /**
  * Bouton flottant "retour en haut" avec progression circulaire.
  * L'animation et le scroll sont gérés par /assets/js/scroll-top.init.js

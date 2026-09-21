@@ -3,12 +3,11 @@
  * À remplacer par des appels API ou un store global (Zustand, Context).
  */
 
-import React from "react";
 import type {
   NotificationItem,
   CartItem,
   UserProfile,
-} from "./types";
+} from "@/components/sections/admin/header/types";
 
 export const CURRENT_USER: UserProfile = {
   name: "Jaydon Levin",
@@ -30,12 +29,8 @@ export const NOTIFICATIONS: NotificationItem[] = [
   {
     id: "n2",
     kind: "like",
-    title: (
-      <>
-        <strong className="fw-semibold text-body">Donald</strong>
-        <i className="ri-heart-3-fill text-danger ms-1"></i>
-      </>
-    ),
+    actor: "Donald",
+    actorIcon: "ri-heart-3-fill text-danger ms-1",
     date: "Friday, 11:29 PM",
     avatarUrl: "/assets/images/avatar/avatar-8.jpg",
   },
@@ -52,26 +47,16 @@ export const NOTIFICATIONS: NotificationItem[] = [
   {
     id: "n4",
     kind: "share",
-    title: (
-      <>
-        <strong className="fw-semibold text-body">Richard</strong>
-        <i className="bi bi-person-plus-fill text-primary fs-16 ms-1"></i>
-      </>
-    ),
+    actor: "Richard",
+    actorIcon: "bi bi-person-plus-fill text-primary fs-16 ms-1",
     date: "Monday, 07:14 AM",
     avatarUrl: "/assets/images/avatar/avatar-5.jpg",
   },
   {
     id: "n5",
     kind: "file",
-    title: (
-      <>
-        Mia{" "}
-        <strong className="fw-normal text-muted fs-13">
-          shared a file in Marketing Campaign
-        </strong>
-      </>
-    ),
+    actor: "Mia",
+    title: "shared a file in Marketing Campaign",
     date: "Thursday 3:20 PM",
     avatarUrl: "/assets/images/avatar/avatar-1.jpg",
     attachment: {

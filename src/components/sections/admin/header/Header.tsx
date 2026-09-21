@@ -1,16 +1,14 @@
-"use client";
-
-import React from "react";
+import Image from "next/image";
 import Link from "next/link";
-import NotificationsDropdown from "./NotificationsDropdown";
-import CartDropdown from "./CartDropdown";
-import ProfileMenu from "./ProfileMenu";
-import DarkModeToggle from "./DarkModeToggle";
+import CartDropdown from "@/components/sections/admin/header/CartDropdown";
+import DarkModeToggle from "@/components/sections/admin/header/DarkModeToggle";
+import NotificationsDropdown from "@/components/sections/admin/header/NotificationsDropdown";
+import ProfileMenu from "@/components/sections/admin/header/ProfileMenu";
 import type {
-  NotificationItem,
   CartItem,
+  NotificationItem,
   UserProfile,
-} from "./types";
+} from "@/components/sections/admin/header/types";
 
 interface HeaderProps {
   user: UserProfile;
@@ -36,8 +34,7 @@ export default function Header({
                 href="/"
                 className="align-items-end logo-main d-none me-5"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   height={40}
                   width={40}
                   className="logo-dark"
