@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+import { isModuleDisabled } from "@/lib/api/administration.endpoints";
 import AboutClub from "@/components/sections/admin/about/AboutClub";
 import {
   ABOUT_APP,
@@ -13,7 +15,10 @@ export const metadata = {
   description: "Présentation de la plateforme d'administration CIE Admin : modules, rôles, technologies et support.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  // Module désactivé depuis la page Administration : introuvable, même par son URL.
+  if (await isModuleDisabled("about")) notFound();
+
   return (
     <AboutClub
       app={ABOUT_APP}

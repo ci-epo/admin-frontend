@@ -2,13 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 import NavMenuItem from "@/components/sections/admin/navbar/NavMenuItem";
-import { MENU } from "@/components/sections/admin/navbar/menuItems";
+import type { NavSection } from "@/components/sections/admin/navbar/menuItems";
 
 /**
  * Sidebar verticale (par défaut). Reproduit le partial sidebar.html.
  * Consomme MENU depuis menuItems.ts (source unique partagée avec HorizontalNav).
  */
-export default function Sidebar() {
+interface SidebarProps {
+  /** Menu à afficher : MENU (menuItems.ts) sans les modules désactivés. */
+  sections: NavSection[];
+}
+
+export default function Sidebar({ sections }: SidebarProps) {
   return (
     <aside className="pe-app-sidebar" id="sidebar">
       <div className="pe-app-sidebar-logo px-6 d-flex align-items-center position-relative">
@@ -46,7 +51,7 @@ export default function Sidebar() {
       >
         <div className="d-flex align-items-start flex-column w-100">
           <ul className="pe-main-menu list-unstyled">
-            {MENU.map((section) => (
+            {sections.map((section) => (
               <Fragment key={section.title}>
                 <li className="pe-menu-title">{section.title}</li>
                 {section.items.map((item) => (

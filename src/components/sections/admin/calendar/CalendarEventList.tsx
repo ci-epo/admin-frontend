@@ -1,4 +1,3 @@
-import { DEFAULT_LABEL_STYLE, LABEL_STYLES } from "@/components/sections/admin/calendar/event-labels";
 import { formatEventDate } from "@/lib/utils/calendar-events";
 import type { CalendarEvent } from "@/types/calendar";
 
@@ -19,25 +18,20 @@ export default function CalendarEventList({ title, events, emptyLabel }: Calenda
           {events.length === 0 ? (
             <li className="text-center text-muted py-3 fs-12">{emptyLabel}</li>
           ) : (
-            events.map((event, i) => {
-              const style = LABEL_STYLES[event.label] ?? DEFAULT_LABEL_STYLE;
-              return (
-                <li key={event.id}>
-                  {i > 0 && <hr className="my-2" />}
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h6 className="mb-0">{event.title}</h6>
-                      <span className="fs-12">{formatEventDate(event.start)}</span>
-                    </div>
-                    <div>
-                      <span className={`badge ${style.bg} rounded-4 ${style.text}`}>
-                        <i className={style.icon} /> {event.label}
-                      </span>
-                    </div>
+            events.map((event, i) => (
+              <li key={event.id}>
+                {i > 0 && <hr className="my-2" />}
+                <div className="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 className="mb-0">{event.localisation}</h6>
+                    <span className="fs-12">
+                      {formatEventDate(event.start)} · {event.beginHour}–{event.endHour}
+                    </span>
                   </div>
-                </li>
-              );
-            })
+                  <i className="ri-calendar-line text-muted" aria-hidden="true"></i>
+                </div>
+              </li>
+            ))
           )}
         </ul>
       </div>

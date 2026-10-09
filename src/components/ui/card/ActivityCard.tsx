@@ -1,75 +1,102 @@
-import Image from "next/image";
+import StatusBadge from "@/components/ui/badge/StatusBadge";
+import type { ActivityType } from "@/types/activity";
 
-interface DropdownItem {
+export const ACTIVITY_TYPE_LABEL: Record<ActivityType, string> = {
+  CONTEST: "Compétition",
+  TRAINING: "Formation",
+  PROJECT: "Projet",
+};
+
+const ACTIVITY_TYPE_TONE: Record<ActivityType, "primary" | "info" | "warning"> = {
+  CONTEST: "primary",
+  TRAINING: "info",
+  PROJECT: "warning",
+};
+
+interface CardAction {
   label: string;
-  href?: string;
+  icon?: string;
+  onClick?: () => void;
+  danger?: boolean;
 }
 
 interface ActivityCardProps {
-  image: { src: string; alt?: string };
   title: string;
+  type: ActivityType;
   description: string;
-  footer: string;
-  buyHref?: string;
-  dropdownItems?: DropdownItem[];
+  scheduleLabel: string;
+  trainerName: string;
+  mandateLabel: string;
+  /** Menu « ⋮ » de la carte ; vide, la carte n'affiche pas de menu. */
+  actions?: CardAction[];
   colClass?: string;
 }
 
 export default function ActivityCard({
-  image,
   title,
+  type,
   description,
-  footer,
-  buyHref = "#",
-  dropdownItems = [
-    { label: "Add to Wishlist" },
-    { label: "Compare" },
-  ],
+  scheduleLabel,
+  trainerName,
+  mandateLabel,
+  actions = [],
   colClass = "col-md-6 col-xl-4",
 }: ActivityCardProps) {
   return (
     <div className={colClass}>
-      <div className="card">
-        <Image
-          src={image.src}
-          width={400}
-          height={267}
-          className="card-img-top"
-          alt={image.alt ?? ""}
-        />
-
-        <div className="card-header d-flex justify-content-between align-items-center">
-          <h5 className="card-title mb-0">{title}</h5>
-          <div className="dropdown">
-            <button
-              className="btn btn-light btn-sm"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              aria-label="Actions"
-            >
-              <i className="ri-more-2-fill" aria-hidden="true"></i>
-            </button>
-            <ul className="dropdown-menu dropdown-menu-end">
-              {dropdownItems.map((item) => (
-                <li key={item.label}>
-                  <a className="dropdown-item" href={item.href ?? "#"}>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+      <div className="card h-100">
+        <div className="card-header d-flex justify-content-between align-items-start gap-2">
+          <div>
+            <h5 className="card-title mb-1">{title}</h5>
+            <StatusBadge label={ACTIVITY_TYPE_LABEL[type]} tone={ACTIVITY_TYPE_TONE[type]} />
           </div>
+          {actions.length > 0 && (
+            <div className="dropdown flex-shrink-0">
+              <button
+                className="btn btn-light btn-sm"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                aria-label={`Actions pour ${title}`}
+              >
+                <i className="ri-more-2-fill" aria-hidden="true"></i>
+              </button>
+              <ul className="dropdown-menu dropdown-menu-end">
+                {actions.map((action) => (
+                  <li key={action.label}>
+                    <button
+                      type="button"
+                      className={`dropdown-item${action.danger ? " text-danger" : ""}`}
+                      onClick={action.onClick}
+                    >
+                      {action.icon && <i className={`${action.icon} me-2`} aria-hidden="true"></i>}
+                      {action.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="card-body">
-          <p className="card-text">{description}</p>
-          <a href={buyHref} className="btn btn-primary">
-            Buy Now
-          </a>
+          <p className="card-text">{description || "Aucune description."}</p>
         </div>
 
-        <div className="card-footer text-muted">{footer}</div>
+        <div className="card-footer text-muted fs-13">
+          <div>
+            <i className="ri-calendar-line me-1" aria-hidden="true"></i>
+            {scheduleLabel}
+          </div>
+          <div>
+            <i className="ri-user-line me-1" aria-hidden="true"></i>
+            {trainerName}
+          </div>
+          <div>
+            <i className="ri-archive-line me-1" aria-hidden="true"></i>
+            Mandat {mandateLabel}
+          </div>
+        </div>
       </div>
     </div>
   );

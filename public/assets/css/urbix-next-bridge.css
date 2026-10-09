@@ -635,7 +635,7 @@
   .about-support-card:hover { transform: none; }
 }
 
-/* Membres — Type (primary/warning/danger/info) vs Statut (success/secondary), palettes disjointes */
+/* Membres — Type (primary/warning/info/danger), pas de colonne Statut (aucun champ réel ne la couvre) */
 .member-table .member-type-chip {
   display: inline-flex;
   align-items: center;
@@ -667,24 +667,16 @@
   background: rgba(var(--pe-warning-rgb), 0.1);
 }
 
-.member-table .member-type-chip--partenaire {
-  color: var(--pe-danger);
-  border-color: rgba(var(--pe-danger-rgb), 0.45);
-  background: rgba(var(--pe-danger-rgb), 0.08);
-}
-
-.member-table .member-type-chip--visiteur {
+.member-table .member-type-chip--ancien-bureau {
   color: var(--pe-info);
   border-color: rgba(var(--pe-info-rgb), 0.45);
   background: rgba(var(--pe-info-rgb), 0.08);
 }
 
-.member-table .member-status-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 4.5rem;
-  white-space: nowrap;
+.member-table .member-type-chip--partenaire {
+  color: var(--pe-danger);
+  border-color: rgba(var(--pe-danger-rgb), 0.45);
+  background: rgba(var(--pe-danger-rgb), 0.08);
 }
 
 /* Trésorerie — tableau des transactions */

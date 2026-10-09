@@ -5,7 +5,7 @@ export { default as ProfileMenu } from "@/components/sections/admin/header/Profi
 export { default as SearchModal } from "@/components/sections/admin/header/SearchModal";
 export { default as DarkModeToggle } from "@/components/sections/admin/header/DarkModeToggle";
 
-export { CURRENT_USER, NOTIFICATIONS, CART_ITEMS } from "@/components/sections/admin/header/mockData";
+export { NOTIFICATIONS, CART_ITEMS } from "@/components/sections/admin/header/mockData";
 export type {
   NotificationItem,
   NotificationKind,

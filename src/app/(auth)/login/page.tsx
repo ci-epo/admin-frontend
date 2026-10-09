@@ -1,5 +1,6 @@
 import AuthHeader from "@/components/sections/auth/AuthHeader";
-import EmptyState from "@/components/ui/empty-state/EmptyState";
+import LoginForm from "@/components/sections/auth/LoginForm";
+import { loginAction } from "@/app/(auth)/login/login.actions";
 
 export const metadata = {
   title: "Connexion | CIE Admin",
@@ -11,11 +12,7 @@ export default function LoginPage() {
     <>
       <AuthHeader />
       <div className="container position-relative z-1 py-10">
-        <EmptyState
-          icon="ri-lock-line"
-          title="Connexion"
-          description="L'authentification sera disponible prochainement."
-        />
+        <LoginForm action={loginAction} />
       </div>
     </>
   );

@@ -1,26 +1,23 @@
-import ArchiveCatalogue from "@/components/sections/admin/archive/ArchiveCatalogue";
-import ArchiveHero from "@/components/sections/admin/archive/ArchiveHero";
-import {
-  ARCHIVE_CATEGORIES_BY_TYPE,
-  ARCHIVE_HERO_STATS,
-  ARCHIVE_ITEMS,
-  ARCHIVE_TYPE_TABS,
-} from "@/components/sections/admin/archive/mockData";
+import { notFound } from "next/navigation";
+import { isModuleDisabled } from "@/lib/api/administration.endpoints";
+import EmptyState from "@/components/ui/empty-state/EmptyState";
 
 export const metadata = {
   title: "Archives | CIE Admin",
   description: "Consultation et gestion des archives du club",
 };
 
-export default function ArchivesPage() {
+export default async function ArchivesPage() {
+  // Module désactivé depuis la page Administration : introuvable, même par son URL.
+  if (await isModuleDisabled("archiver")) notFound();
+
+  // Aucune archive n'est stockée côté app-service pour l'instant : pas de faux documents affichés.
   return (
-    <>
-      <ArchiveHero stats={ARCHIVE_HERO_STATS} />
-      <ArchiveCatalogue
-        items={ARCHIVE_ITEMS}
-        typeTabs={ARCHIVE_TYPE_TABS}
-        categoriesByType={ARCHIVE_CATEGORIES_BY_TYPE}
-      />
-    </>
+    <EmptyState
+      className="position-relative z-1"
+      icon="ri-archive-line"
+      title="Aucune archive pour le moment"
+      description="La consultation des archives du club sera bientôt disponible."
+    />
   );
 }

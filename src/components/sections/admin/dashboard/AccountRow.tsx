@@ -1,52 +1,32 @@
-import Image from "next/image";
-import RowActions from "@/components/ui/dropdown/RowActions";
+import OfficeAssignmentRowActions from "@/components/sections/admin/dashboard/OfficeAssignmentRowActions";
 import StatusBadge from "@/components/ui/badge/StatusBadge";
-import type { Order, OrderStatus } from "@/types/dashboard";
+import type { FormAction } from "@/types/administration";
+import type { OfficeAssignmentFormOptions, OfficeAssignmentRow } from "@/types/office-assignment";
 
 interface AccountRowProps {
-  order: Order;
+  row: OfficeAssignmentRow;
+  options: OfficeAssignmentFormOptions;
+  updateAction: FormAction;
+  deleteAction: FormAction;
 }
 
-const STATUS_TONE: Record<OrderStatus, "success" | "secondary"> = {
-  Actif: "success",
-  Inactif: "secondary",
-};
-
-const ACCOUNT_ACTIONS = [
-  { label: "Modifier" },
-  { label: "Voir" },
-  { label: "Changer le statut" },
-];
-
-export default function AccountRow({ order }: AccountRowProps) {
+export default function AccountRow({ row, options, updateAction, deleteAction }: AccountRowProps) {
   return (
     <tr>
+      <td>{row.positionName}</td>
+      <td>{row.memberName}</td>
+      <td>{row.phoneNumber}</td>
       <td>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            defaultChecked={order.checked}
-            aria-label={`Sélectionner ${order.id}`}
-          />
-          <Image
-            src={order.avatarUrl}
-            width={24}
-            height={24}
-            className="avatar-sm rounded-2 mx-2"
-            alt=""
-          />
-          {order.id}
-        </div>
+        <StatusBadge label={row.active ? "Actif" : "Inactif"} tone={row.active ? "success" : "secondary"} />
       </td>
-      <td>{order.email}</td>
-      <td>{order.product}</td>
-      <td>
-        <StatusBadge label={order.status} tone={STATUS_TONE[order.status]} />
-      </td>
-      <td>{order.tracking}</td>
-      <td>
-        <RowActions actions={ACCOUNT_ACTIONS} />
+      <td>{row.mandateLabel}</td>
+      <td className="text-end">
+        <OfficeAssignmentRowActions
+          row={row}
+          options={options}
+          updateAction={updateAction}
+          deleteAction={deleteAction}
+        />
       </td>
     </tr>
   );

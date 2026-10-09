@@ -1,13 +1,11 @@
-import { groupCalendarEvents } from "@/lib/utils/calendar-events";
-import type { RawCalendarEvent } from "@/types/calendar";
+import { groupCalendarEvents, toScheduleCalendarEvents } from "@/lib/utils/calendar-events";
+import type { RawCalendarEvent, Schedule } from "@/types/calendar";
 
-const buildEvent = (id: string, start: Date | null, label = "Formation"): RawCalendarEvent => ({
+const buildEvent = (id: string, start: Date | null, localisation = "Salle A"): RawCalendarEvent => ({
   id,
-  title: `Événement ${id}`,
   start,
   end: null,
-  classNames: [],
-  extendedProps: { label },
+  extendedProps: { beginHour: "14:00", endHour: "16:00", localisation },
 });
 
 describe("groupCalendarEvents", () => {
@@ -43,9 +41,35 @@ describe("groupCalendarEvents", () => {
     expect(groups).toEqual({ upcoming: [], past: [] });
   });
 
-  it("retourne un libellé vide quand l'événement n'en a pas", () => {
+  it("retourne des champs vides quand l'événement n'a pas d'extendedProps", () => {
     const raw = { ...buildEvent("y", new Date(2026, 4, 12)), extendedProps: {} };
 
-    expect(groupCalendarEvents([raw], now).upcoming[0].label).toBe("");
+    expect(groupCalendarEvents([raw], now).upcoming[0]).toMatchObject({
+      beginHour: "",
+      endHour: "",
+      localisation: "",
+    });
+  });
+});
+
+describe("toScheduleCalendarEvents", () => {
+  it("combine la date (minuit UTC) et les horaires en ISO, avec le lieu comme titre", () => {
+    const schedule: Schedule = {
+      publicId: "abc",
+      date: "2026-10-15T00:00:00.000Z",
+      beginHour: "14:00",
+      endHour: "16:00",
+      localisation: "Salle A",
+    };
+
+    const [event] = toScheduleCalendarEvents([schedule]);
+
+    expect(event).toEqual({
+      id: "abc",
+      title: "Salle A",
+      start: "2026-10-15T14:00:00.000Z",
+      end: "2026-10-15T16:00:00.000Z",
+      extendedProps: { beginHour: "14:00", endHour: "16:00", localisation: "Salle A" },
+    });
   });
 });

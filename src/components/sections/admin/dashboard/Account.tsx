@@ -1,45 +1,75 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import AccountRow from "@/components/sections/admin/dashboard/AccountRow";
+import AddOfficeAssignmentModal from "@/components/sections/admin/dashboard/AddOfficeAssignmentModal";
 import TableFooter from "@/components/ui/table/TableFooter";
 import TableToolbar from "@/components/ui/table/TableToolbar";
 import { usePagination } from "@/hooks/use-pagination";
-import type { Order } from "@/types/dashboard";
+import { filterBySearch } from "@/lib/utils/text-search";
+import type { FormAction } from "@/types/administration";
+import type { OfficeAssignmentFormOptions, OfficeAssignmentRow } from "@/types/office-assignment";
 
 interface AccountProps {
-  orders: Order[];
+  rows: OfficeAssignmentRow[];
+  options: OfficeAssignmentFormOptions;
+  action: FormAction;
+  updateAction: FormAction;
+  deleteAction: FormAction;
 }
 
-const FILTERS = [{ label: "Filtre", options: ["Actuel bureau", "Ancien bureau"] }];
 const PAGE_SIZE = 5;
 
-export default function Account({ orders }: AccountProps) {
-  const { items, page, totalPages, from, to, total, setPage } = usePagination(
-    orders,
-    PAGE_SIZE,
-  );
+/** Champs sur lesquels porte la recherche : toutes les colonnes affichées, statut compris. */
+function searchableFields(row: OfficeAssignmentRow): string[] {
+  return [row.positionName, row.memberName, row.phoneNumber, row.mandateLabel, row.active ? "Actif" : "Inactif"];
+}
+
+export default function Account({ rows, options, action, updateAction, deleteAction }: AccountProps) {
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const filteredRows = useMemo(() => filterBySearch(rows, query, searchableFields), [rows, query]);
+  const { items, page, totalPages, from, to, total, setPage } = usePagination(filteredRows, PAGE_SIZE);
+
+  const handleSearchChange = (value: string) => {
+    setQuery(value);
+    setPage(1);
+  };
 
   return (
     <div className="row">
       <div className="col-12">
         <div className="card">
-          <TableToolbar title="Comptes Admin" filters={FILTERS} size="md" />
+          <TableToolbar
+            title="Comptes Admin"
+            onAdd={() => setIsAddOpen(true)}
+            searchPlaceholder="Rechercher un poste, un membre..."
+            searchValue={query}
+            onSearchChange={handleSearchChange}
+            size="md"
+          />
           <div className="card-body">
             <div className="table-box table-responsive">
               <table className="table table-hover text-nowrap">
                 <thead className="table-light border-0">
                   <tr>
                     <th>Poste</th>
+                    <th>Membre</th>
                     <th>Telephone</th>
-                    <th>Classe</th>
                     <th>Statut</th>
-                    <th>Annee</th>
-                    <th></th>
+                    <th>Mandat</th>
+                    <th aria-label="Actions" />
                   </tr>
                 </thead>
                 <tbody>
-                  {items.map((order) => (
-                    <AccountRow key={order.id} order={order} />
+                  {items.map((row) => (
+                    <AccountRow
+                      key={row.publicId}
+                      row={row}
+                      options={options}
+                      updateAction={updateAction}
+                      deleteAction={deleteAction}
+                    />
                   ))}
                 </tbody>
               </table>
@@ -49,7 +79,9 @@ export default function Account({ orders }: AccountProps) {
               from={from}
               to={to}
               total={total}
-              emptyLabel="Aucun résultat"
+              emptyLabel={
+                rows.length > 0 ? `Aucun résultat pour « ${query.trim()} »` : "Aucune affectation enregistrée"
+              }
               page={page}
               totalPages={totalPages}
               onPageChange={setPage}
@@ -57,6 +89,13 @@ export default function Account({ orders }: AccountProps) {
           </div>
         </div>
       </div>
+
+      <AddOfficeAssignmentModal
+        options={options}
+        action={action}
+        isOpen={isAddOpen}
+        onClose={() => setIsAddOpen(false)}
+      />
     </div>
   );
 }

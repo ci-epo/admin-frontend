@@ -11,9 +11,7 @@ export function filterAndSortArchives(
   items: readonly ArchiveItem[],
   { type, category, sortBy }: ArchiveQuery,
 ): ArchiveItem[] {
-  const filtered = items.filter(
-    (item) => item.type === type && (category === "all" || item.category === category),
-  );
+  const filtered = items.filter((item) => item.type === type && (category === "all" || item.category === category));
 
   return filtered.sort((a, b) => {
     if (sortBy === "year-desc") return b.year - a.year;

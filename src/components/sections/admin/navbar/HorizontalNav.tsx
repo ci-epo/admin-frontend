@@ -1,13 +1,18 @@
 import { Fragment } from "react";
 import NavMenuItem from "@/components/sections/admin/navbar/NavMenuItem";
-import { MENU } from "@/components/sections/admin/navbar/menuItems";
+import type { NavSection } from "@/components/sections/admin/navbar/menuItems";
 
 /**
  * Navigation horizontale. Reproduit le partial horizontal.html.
  * Consomme exactement le même MENU que Sidebar — un seul endroit pour
  * gérer la structure de navigation, deux rendus visuels.
  */
-export default function HorizontalNav() {
+interface HorizontalNavProps {
+  /** Menu à afficher : MENU (menuItems.ts) sans les modules désactivés. */
+  sections: NavSection[];
+}
+
+export default function HorizontalNav({ sections }: HorizontalNavProps) {
   return (
     <>
       <aside className="pe-app-sidebar horizontal-sidebar" id="horizontal-aside">
@@ -16,7 +21,7 @@ export default function HorizontalNav() {
             className="pe-horizontal-menu mb-0 list-unstyled"
             id="horizontal-menu"
           >
-            {MENU.map((section) => (
+            {sections.map((section) => (
               <Fragment key={section.title}>
                 <li className="pe-menu-title">{section.title}</li>
                 {section.items.map((item) => (

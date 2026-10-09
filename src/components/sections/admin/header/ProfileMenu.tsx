@@ -4,9 +4,10 @@ import type { UserProfile } from "@/components/sections/admin/header/types";
 
 interface ProfileMenuProps {
   user: UserProfile;
+  onLogout?: () => Promise<void>;
 }
 
-export default function ProfileMenu({ user }: ProfileMenuProps) {
+export default function ProfileMenu({ user, onLogout }: ProfileMenuProps) {
   return (
     <div className="dropdown pe-dropdown-mega d-none d-md-block">
       <button
@@ -79,9 +80,17 @@ export default function ProfileMenu({ user }: ProfileMenuProps) {
 
         <ul className="list-unstyled mb-0">
           <li>
-            <Link className="dropdown-item" href="/auth/signout">
-              <i className="bi bi-box-arrow-right me-2"></i> Sign Out
-            </Link>
+            {onLogout ? (
+              <form action={onLogout}>
+                <button type="submit" className="dropdown-item">
+                  <i className="bi bi-box-arrow-right me-2"></i> Se déconnecter
+                </button>
+              </form>
+            ) : (
+              <Link className="dropdown-item" href="/login">
+                <i className="bi bi-box-arrow-right me-2"></i> Se déconnecter
+              </Link>
+            )}
           </li>
         </ul>
       </div>

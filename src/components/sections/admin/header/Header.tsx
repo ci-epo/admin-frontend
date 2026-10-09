@@ -15,6 +15,7 @@ interface HeaderProps {
   notifications: NotificationItem[];
   unreadCount: number;
   cartItems: CartItem[];
+  onLogout?: () => Promise<void>;
 }
 
 export default function Header({
@@ -22,6 +23,7 @@ export default function Header({
   notifications,
   unreadCount,
   cartItems,
+  onLogout,
 }: HeaderProps) {
   return (
     <>
@@ -76,7 +78,7 @@ export default function Header({
               </div>
 
               <DarkModeToggle />
-              <ProfileMenu user={user} />
+              <ProfileMenu user={user} onLogout={onLogout} />
             </div>
           </div>
         </div>

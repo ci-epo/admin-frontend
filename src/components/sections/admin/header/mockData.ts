@@ -6,14 +6,7 @@
 import type {
   NotificationItem,
   CartItem,
-  UserProfile,
 } from "@/components/sections/admin/header/types";
-
-export const CURRENT_USER: UserProfile = {
-  name: "Jaydon Levin",
-  email: "jaydon@gmail.com",
-  avatarUrl: "/assets/images/avatar/avatar-3.jpg",
-};
 
 export const NOTIFICATIONS: NotificationItem[] = [
   {

@@ -2,6 +2,10 @@ interface RowAction {
   label: string;
   /** Classe d'icône (ex: "ri-eye-line"). */
   icon?: string;
+  /** Sans handler, l'entrée reste décorative (comportement historique). */
+  onClick?: () => void;
+  /** Libellé en rouge (ex. une suppression). */
+  danger?: boolean;
 }
 
 interface RowActionsProps {
@@ -25,7 +29,11 @@ export default function RowActions({ actions, ariaLabel = "Actions" }: RowAction
       <ul className="dropdown-menu dropdown-menu-end">
         {actions.map((action) => (
           <li key={action.label}>
-            <button type="button" className="dropdown-item">
+            <button
+              type="button"
+              className={`dropdown-item${action.danger ? " text-danger" : ""}`}
+              onClick={action.onClick}
+            >
               {action.icon && <i className={`${action.icon} me-2`} aria-hidden="true"></i>}
               {action.label}
             </button>

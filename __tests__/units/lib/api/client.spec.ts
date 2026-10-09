@@ -45,3 +45,33 @@ describe("apiClient", () => {
     });
   });
 });
+
+describe("apiClient : jeton de session", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("envoie le jeton de la session en Authorization Bearer", async () => {
+    jest.resetModules();
+    jest.doMock("@/lib/auth/session", () => ({ readAccessToken: async () => "jeton-bureau" }));
+    const { apiClient: client } = await import("@/lib/api/client");
+    global.fetch = jest.fn().mockResolvedValue(jsonResponse(200, {}));
+
+    await client({ path: "/members", method: "GET" });
+
+    expect((global.fetch as jest.Mock).mock.calls[0][1].headers).toMatchObject({ Authorization: "Bearer jeton-bureau" });
+    jest.dontMock("@/lib/auth/session");
+  });
+
+  it("n'envoie aucun en-tête d'autorisation sans session", async () => {
+    jest.resetModules();
+    jest.doMock("@/lib/auth/session", () => ({ readAccessToken: async () => null }));
+    const { apiClient: client } = await import("@/lib/api/client");
+    global.fetch = jest.fn().mockResolvedValue(jsonResponse(200, {}));
+
+    await client({ path: "/members", method: "GET" });
+
+    expect((global.fetch as jest.Mock).mock.calls[0][1].headers).not.toHaveProperty("Authorization");
+    jest.dontMock("@/lib/auth/session");
+  });
+});
