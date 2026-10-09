@@ -27,7 +27,7 @@ export interface OfficeAssignmentRow {
   /** Dates au format `YYYY-MM-DD`, prêtes pour un `<input type="date">`. */
   beginDate: string;
   endDate: string;
-  /** `true` si aujourd'hui est entre `beginDate` et `endDate` — pas un champ de la base, calculé à l'affichage. */
+  /** `true` tant que `endDate` n'est pas dépassée — pas un champ de la base, calculé à l'affichage. */
   active: boolean;
 }
 

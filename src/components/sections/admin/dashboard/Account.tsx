@@ -18,7 +18,7 @@ interface AccountProps {
   deleteAction: FormAction;
 }
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 12;
 
 /** Champs sur lesquels porte la recherche : toutes les colonnes affichées, statut compris. */
 function searchableFields(row: OfficeAssignmentRow): string[] {

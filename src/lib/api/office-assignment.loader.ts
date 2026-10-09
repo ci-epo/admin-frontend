@@ -4,6 +4,7 @@ import {
   listOfficeAssignments,
   listPositionOptions,
 } from "@/lib/api/office-assignment.endpoints";
+import { isOfficeAssignmentActive } from "@/lib/utils/office-assignment-status";
 import type { OfficeAssignmentFormOptions, OfficeAssignmentRow, SelectOption } from "@/types/office-assignment";
 
 export interface OfficeAssignmentBoard {
@@ -52,7 +53,7 @@ export async function loadOfficeAssignmentBoard(): Promise<OfficeAssignmentBoard
         mandateLabel: labelOf(mandates, assignment.mandateId, "Mandat inconnu"),
         beginDate: toDateInputValue(assignment.beginDate),
         endDate: toDateInputValue(assignment.endDate),
-        active: new Date(assignment.beginDate) <= now && now <= new Date(assignment.endDate),
+        active: isOfficeAssignmentActive(assignment.endDate, now),
       };
     });
 

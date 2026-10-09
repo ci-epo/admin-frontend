@@ -2,6 +2,14 @@
 
 Dernière mise à jour : 2026-10-03
 
+## Tableau « Comptes Admin » : 12 par page, statut selon la date de fin (2026-10-09)
+
+- Pagination à 12 lignes (`Account.tsx`). Statut « Actif » tant que la date de fin de l'affectation n'est pas dépassée (jour de fin
+  compris, comparaison de jours en UTC, `lib/utils/office-assignment-status.ts`) ; la date de début n'intervient plus. Avant :
+  actif seulement entre début et fin, avec comparaison à l'heure près.
+- Le bureau seedé 2025-2026 se termine le 2026-08-31 : tant qu'on n'a pas prolongé ses dates (menu « ⋮ » → Modifier) ou créé le
+  mandat suivant, toutes ses lignes sont « Inactif ». Pas vérifié en navigateur (logique couverte par un test unitaire).
+
 ## Projets branchés : liste, ajout, modification, suppression (2026-10-03, priorité 6)
 
 - `/project` branché sur `app-service` (`/projects`) : tableau avec recherche, pagination 10/page, visibilité, liens
