@@ -1,4 +1,5 @@
 import { canUseAdminFrontend } from "@/lib/auth/access-role";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { HorizontalNav, MENU, Sidebar } from "@/components/sections/admin/navbar";
 import { Header, NOTIFICATIONS, CART_ITEMS } from "@/components/sections/admin/header";
@@ -24,11 +25,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect("/login");
   }
 
+  // Mot de passe provisoire (compte créé par le bureau) : rien d'autre que « Voir profil » tant qu'il n'est pas changé.
+  if (access.mustChangePassword && (await headers()).get("x-pathname") !== "/profile") {
+    redirect("/profile");
+  }
+
   // Lu à chaque requête (pas de cache) : un module désactivé ou un bandeau disparaît dès l'enregistrement.
   const settings = await getAdminSettingsOrDefault();
   const sections = withoutUnauthorizedModules(withoutHiddenModules(MENU, settings.hiddenModules), access.permissions);
   const user = {
-    name: access.email ?? "Bureau",
+    name: [access.firstName, access.name].filter(Boolean).join(" ") || access.email || "Bureau",
     email: access.email ?? "",
     avatarUrl: "/assets/images/avatar/avatar-3.jpg",
   };

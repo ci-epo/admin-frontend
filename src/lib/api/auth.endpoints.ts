@@ -1,6 +1,6 @@
 import { apiClient } from "@/lib/api/client";
 import { parseAuthSessionDto, parseUserAccessDto } from "@/lib/schemas/auth.schema";
-import type { AuthSession, UserAccess } from "@/types/auth";
+import type { AuthSession, ChangePasswordCommand, UpdateProfileCommand, UserAccess } from "@/types/auth";
 
 const authorized = (accessToken: string) => ({
   headers: { Authorization: `Bearer ${accessToken}` },
@@ -34,4 +34,13 @@ export async function logoutSession(refreshToken: string): Promise<void> {
 export async function me(accessToken: string): Promise<UserAccess> {
   const dto = await apiClient<unknown>({ path: "/auth/me", method: "GET", ...authorized(accessToken) });
   return parseUserAccessDto(dto);
+}
+
+/** Modifie la fiche de l'utilisateur connecté (le jeton de la session est joint par `apiClient`). */
+export async function updateMyProfile(command: UpdateProfileCommand): Promise<void> {
+  await apiClient<unknown>({ path: "/auth/me", method: "PATCH", body: command, cache: "no-store" });
+}
+
+export async function changeMyPassword(command: ChangePasswordCommand): Promise<void> {
+  await apiClient<unknown>({ path: "/auth/change-password", method: "POST", body: command, cache: "no-store" });
 }

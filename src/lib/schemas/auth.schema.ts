@@ -22,6 +22,11 @@ function parsePosition(value: unknown): AccessPosition {
   };
 }
 
+/** Champ de fiche absent (ancienne version de l'API) ou `null` : pas de valeur. */
+function readProfileField(source: Record<string, unknown>, key: string, what: string): string | null {
+  return source[key] === undefined ? null : readNullableString(source, key, what);
+}
+
 export function parseUserAccessDto(value: unknown): UserAccess {
   const what = "user access";
   const source = asObject(value, what);
@@ -30,6 +35,10 @@ export function parseUserAccessDto(value: unknown): UserAccess {
   return {
     userId: readNullableString(source, "userId", what),
     email: readNullableString(source, "email", what),
+    name: readProfileField(source, "name", what),
+    firstName: readProfileField(source, "firstName", what),
+    phoneNumber: readProfileField(source, "phoneNumber", what),
+    mustChangePassword: source.mustChangePassword === true,
     role: readString(source, "role", what),
     positions: positions.map(parsePosition),
     permissions: readStringArray(source, "permissions", what),

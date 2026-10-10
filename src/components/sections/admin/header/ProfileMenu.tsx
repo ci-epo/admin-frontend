@@ -35,46 +35,18 @@ export default function ProfileMenu({ user, onLogout }: ProfileMenuProps) {
         <div className="border-bottom pb-2 mb-2 d-flex align-items-center gap-2">
           <Image src={user.avatarUrl} width={36} height={36} alt="Avatar" className="avatar-md" />
           <div>
-            <a href="#">
+            <Link href="/profile">
               <h6 className="mb-0 lh-base">{user.name}</h6>
-            </a>
+            </Link>
             <p className="mb-0 fs-13 text-muted">{user.email}</p>
           </div>
         </div>
 
         <ul className="list-unstyled mb-1 border-bottom pb-1">
           <li>
-            <Link className="dropdown-item" href="/pages/profile">
-              <i className="bi bi-person me-2"></i> View Profile
+            <Link className="dropdown-item" href="/profile">
+              <i className="bi bi-person me-2"></i> Voir profil
             </Link>
-          </li>
-          <li>
-            <Link className="dropdown-item" href="/pages/profile">
-              <i className="bi bi-gear me-2"></i> Settings
-            </Link>
-          </li>
-          <li>
-            <Link className="dropdown-item" href="/pages/billing-subscription">
-              <i className="bi bi-award me-2"></i> Subscription
-            </Link>
-          </li>
-        </ul>
-
-        <ul className="list-unstyled mb-1 border-bottom pb-1">
-          <li>
-            <a className="dropdown-item" href="#">
-              <i className="bi bi-clock me-2"></i> ChangLog
-            </a>
-          </li>
-          <li>
-            <Link className="dropdown-item" href="/pages/pricing">
-              <i className="bi bi-currency-dollar me-2"></i> Pricing
-            </Link>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              <i className="bi bi-headset me-2"></i> Support
-            </a>
           </li>
         </ul>
 

@@ -13,18 +13,20 @@ export async function loginAction(_state: ActionState, form: FormData): Promise<
   const password = String(form.get("password") ?? "");
   if (!email || !password) return failure("Saisissez votre e-mail et votre mot de passe.");
 
+  let mustChangePassword = false;
   try {
     const session = await login(email, password);
     const access = await me(session.accessToken);
     if (!canUseAdminFrontend(access.role)) {
       return failure("Accès réservé au bureau et aux administrateurs : ce compte n'a pas (ou plus) l'un de ces rôles.");
     }
+    mustChangePassword = access.mustChangePassword;
     await storeSession(session);
   } catch (error) {
     return failure(loginErrorMessage(error));
   }
 
-  redirect("/dashboard");
+  redirect(mustChangePassword ? "/profile" : "/dashboard");
 }
 
 function loginErrorMessage(error: unknown): string {

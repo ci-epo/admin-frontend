@@ -38,7 +38,7 @@ function text(form: FormData, name: string): string {
 
 /** Même règle que app-service (`Utils.passwordRegex`) : 8 caractères minimum, une lettre, un chiffre, un symbole. */
 export const MEMBER_PASSWORD_RULE = "8 caractères minimum, avec une lettre, un chiffre et un symbole.";
-const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+export const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
 /** Champs communs de la fiche membre. Le format (téléphone, e-mail) est vérifié par app-service. */
 function parseMemberFields(form: FormData): FormResult<Omit<CreateMemberCommand, "password">> {

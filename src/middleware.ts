@@ -11,7 +11,10 @@ const REFRESH_COOKIE_NAME = "cie_refresh_token";
  * ici, avant que la requête n'atteigne la page.
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
-  const response = NextResponse.next();
+  // Les Server Components (layouts) ne connaissent pas l'URL : on la leur transmet par un en-tête de requête.
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", request.nextUrl.pathname);
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
 
   if (request.cookies.get(ACCESS_COOKIE_NAME)?.value) {
     return response;
