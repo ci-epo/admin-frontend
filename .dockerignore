@@ -3,3 +3,12 @@ node_modules
 .git
 .env*
 !.env
+github-deploy-key*
+*.pem
+*.key
+.swc
+.cursor
+.github
+.claude
+.agents
+.windsurf

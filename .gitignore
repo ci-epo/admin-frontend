@@ -36,3 +36,7 @@ Thumbs.db
 
 # local tooling
 .cursor/
+
+# Clés privées : ne jamais versionner (voir docs/memoire/PIEGES.md)
+github-deploy-key*
+*.pem
