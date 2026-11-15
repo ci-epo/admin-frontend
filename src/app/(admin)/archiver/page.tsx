@@ -1,23 +1,21 @@
 import { notFound } from "next/navigation";
 import { isModuleDisabled } from "@/lib/api/administration.endpoints";
-import EmptyState from "@/components/ui/empty-state/EmptyState";
+import { getCurrentAccess, hasPermission } from "@/lib/auth/current-access";
+import { loadMedia } from "@/lib/api/media.loader";
+import ArchiveBoard from "@/components/sections/admin/media/ArchiveBoard";
+import { deleteMediaAction, updateMediaAction } from "@/app/(admin)/media/media.actions";
 
 export const metadata = {
   title: "Archives | CIE Admin",
-  description: "Consultation et gestion des archives du club",
+  description: "Documents d'archive du club, réservés au bureau",
 };
 
-export default async function ArchivesPage() {
-  // Module désactivé depuis la page Administration : introuvable, même par son URL.
+export default async function ArchiverPage() {
+  // Module désactivé depuis la page Administration, ou poste sans la permission `page:archiver` : introuvable.
   if (await isModuleDisabled("archiver")) notFound();
+  if (!hasPermission(await getCurrentAccess(), "page:archiver")) notFound();
 
-  // Aucune archive n'est stockée côté app-service pour l'instant : pas de faux documents affichés.
-  return (
-    <EmptyState
-      className="position-relative z-1"
-      icon="ri-archive-line"
-      title="Aucune archive pour le moment"
-      description="La consultation des archives du club sera bientôt disponible."
-    />
-  );
+  const { rows, unavailable } = await loadMedia("DOCUMENT");
+
+  return <ArchiveBoard rows={rows} unavailable={unavailable} updateAction={updateMediaAction} deleteAction={deleteMediaAction} />;
 }

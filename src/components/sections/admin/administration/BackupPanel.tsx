@@ -1,6 +1,7 @@
 import BackupCreateCard from "@/components/sections/admin/administration/BackupCreateCard";
 import BackupHelp from "@/components/sections/admin/administration/BackupHelp";
 import BackupImportCard from "@/components/sections/admin/administration/BackupImportCard";
+import MediaExportCard from "@/components/sections/admin/administration/MediaExportCard";
 import BackupTable from "@/components/sections/admin/administration/BackupTable";
 import type { FormAction } from "@/types/administration";
 import type { Backup } from "@/types/backup";
@@ -26,6 +27,7 @@ export default function BackupPanel({ backups, actions }: BackupPanelProps) {
       <div className="col-xxl-4 d-flex flex-column gap-4">
         <BackupCreateCard action={actions.create} />
         <BackupImportCard action={actions.import} />
+        <MediaExportCard />
         <BackupHelp />
       </div>
     </div>

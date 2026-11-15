@@ -103,7 +103,9 @@ export async function apiRawClient(request: ApiRawRequest): Promise<Response> {
       ...request.headers,
     },
     body: request.body,
-  });
+    // Node exige `duplex: "half"` pour émettre un corps en flux.
+    ...(request.body instanceof ReadableStream ? { duplex: "half" } : {}),
+  } as RequestInit);
   if (!response.ok) {
     throw await failureOf(response);
   }

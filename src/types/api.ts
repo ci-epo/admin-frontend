@@ -36,5 +36,6 @@ export type ApiClientRequest = {
 
 /** Requête dont le corps (fichier) est transmis tel quel, et dont la réponse n'est pas lue. */
 export type ApiRawRequest = Omit<ApiClientRequest, "body"> & {
-  body?: Blob;
+  /** Un `ReadableStream` est relayé sans être chargé en mémoire (envoi d'un gros fichier). */
+  body?: Blob | ReadableStream<Uint8Array>;
 };
